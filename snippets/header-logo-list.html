@@ -1,0 +1,22 @@
+<a
+  class="header__logo-list"
+  href="{{#if section.settings.icon_link}}{{section.settings.icon_link}}{{else}}javascript:;{{/if}}"
+>
+  <div class="header__logo-list__item">
+    <div class="header__logo-list__item__logo-wrapper">
+      {{#if section.settings.icon_image}}
+        {{snippet "image" data=section.settings.icon_image pc_size="30px" mobile_size="30px"}}
+      {{else}}
+        {{snippet "logo-list-icon" icon=section.settings.icon icon_color="currentColor"}}
+      {{/if}}
+    </div>
+    <div class="header__logo-list__item__text-wrapper">
+      <div class="header__logo-list__item__title body3">
+        {{section.settings.icon_title}}
+      </div>
+      <div class="header__logo-list__item__subtitle body4">
+        {{section.settings.icon_sub_title}}
+      </div>
+    </div>
+  </div>
+</a>

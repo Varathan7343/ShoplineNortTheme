@@ -1,0 +1,815 @@
+{{snippet "stylesheet" href=(asset_url "section-featured-slideshow.css")}}
+<script src="{{asset_url 'component-slider.js'}}" defer></script>
+<script src="{{asset_url 'section-featured-slideshow.js'}}" defer></script>
+
+{{#if request.design_mode}}
+  <script src="{{asset_url 'theme-editor.js'}}" defer="defer"></script>
+{{/if}}
+
+{{assign "pc_height" section.settings.section_height}}
+
+{{#if (length section.blocks)}}
+  {{assign "first_block" (first section.blocks)}}
+  {{#if pc_height == "natural" and (not first_block.settings.image)}}
+    {{assign "pc_height" "450px"}}
+  {{/if}}
+{{/if}}
+
+<featured-slideshow-section
+  class="featured-slideshow"
+  style="
+    --featured-slideshow-speed: {{section.settings.autoplay_speed}}s;
+    --featured-slideshow-pc-height: {{pc_height}};
+  "
+  loop="true"
+  autoplay="{{section.settings.autoplay}}"
+  speed="{{section.settings.autoplay_speed}}"
+>
+  <div
+    id="Slider-{{section.id}}"
+    class="featured-slideshow__slider slider featured-slideshow-left"
+    data-autoplay="{{section.settings.autoplay}}"
+    data-speed="{{section.settings.autoplay_speed}}"
+  >
+    {{#for section.blocks as |block|}}
+      <div
+        {{{block.shopline_attributes}}}
+        id="Slide-{{block.id}}"
+        class="featured-slideshow__slide slider__slide"
+        style="
+            --featured-slideshow-overlay-opacity: {{block.settings.overlay_opacity}};
+            --featured-slideshow-title-size: {{block.settings.title_size}}px;
+            --featured-slideshow-pc-text-position-vertical: {{itemAt (split block.settings.pc_text_position ' ') 0}};
+            --featured-slideshow-pc-text-position-horizontal: {{itemAt
+          (split block.settings.pc_text_position ' ')
+          1
+        }};
+            --featured-slideshow-pc-text-align: {{block.settings.pc_text_align}};
+            --featured-slideshow-mobile-text-align: {{block.settings.mobile_text_align}};
+            --featured-slideshow-text-color: {{block.settings.text_color}};
+          "
+      >
+        {{assign 'use_image_link' (if (not block.settings.link_text) and block.settings.link)}}
+        {{assign 'media_wrapper_tag' (ternary use_image_link 'a' 'div')}}
+        <{{media_wrapper_tag}}
+          {{#if use_image_link}}href="{{block.settings.link}}"{{/if}}
+          class="featured-slideshow-slide__media {{#if forloop.index0 > 0}}featured-slideshow-slide__media--adapt{{/if}} "
+        >
+          
+          {{#if block.settings.image}}
+            {{snippet
+              "image"
+              class="featured-slideshow-slide__image display-none display-block-desktop"
+              data=block.settings.image
+            }}
+          {{else}}
+            <div class="featured-slideshow-slide__image-placeholder display-none display-block-desktop">
+              {{placeholder_svg_tag "lifestyle-1"}}
+            </div>
+          {{/if}}
+
+          
+          {{assign
+            "mobileImage"
+            (default
+              (ternary block.settings.image_mobile block.settings.image_mobile null)
+              (ternary block.settings.image block.settings.image null)
+            )
+          }}
+          {{#if mobileImage}}
+            {{snippet "image" class="featured-slideshow-slide__image display-none-desktop" data=mobileImage}}
+          {{else}}
+            <div class="featured-slideshow-slide__image-placeholder display-none-desktop">
+              {{placeholder_svg_tag "lifestyle-1"}}
+            </div>
+          {{/if}}
+        </{{media_wrapper_tag}}>
+
+        <div class="featured-slideshow-slide__text-wrapper">
+          <div class="featured-slideshow-slide__text">
+            {{#if block.settings.text_mask}}
+              {{#if block.settings.text_mask_color == "deep"}}
+                <div class="featured-slideshow-slide__text-mask mask-deep"></div>
+              {{/if}}
+              {{#if block.settings.text_mask_color == "light"}}
+                <div class="featured-slideshow-slide__text-mask mask-light"></div>
+              {{/if}}
+            {{/if}}
+
+            {{#if block.settings.sub_title}}
+              <p class="featured-slideshow-slide__sub-title body3" data-animation>{{block.settings.sub_title}}</p>
+            {{/if}}
+            {{#if block.settings.title}}
+              <h2 class="featured-slideshow-slide__title title2" data-animation>{{newline_to_br
+                  block.settings.title
+                }}</h2>
+            {{/if}}
+            {{#if block.settings.subheading}}
+              <p class="featured-slideshow-slide__desc body1" data-animation>{{block.settings.subheading}}</p>
+            {{/if}}
+            <div class="featured-slideshow-slide__buttons">
+              {{#if block.settings.link_text}}
+                {{assign "ele" (ternary (if block.settings.link) "a" "span")}}
+                <{{ele}}
+                  class="button featured-slideshow-slide__button
+                    {{#if block.settings.is_profile_link}}button--secondary{{/if}}"
+                  style="{{#if block.settings.is_profile_link}}background-color: transparent;{{/if}}"
+                  title="{{block.settings.link_text}}"
+                  {{#if block.settings.link}}href="{{block.settings.link}}"{{else}}role="link"{{/if}}
+                >
+                  {{block.settings.link_text}}
+                </{{ele}}>
+              {{/if}}
+              {{#if block.settings.link_text_2}}
+                {{assign "ele" (ternary (if block.settings.link_2) "a" "span")}}
+                <{{ele}}
+                  class="button featured-slideshow-slide__button
+                    {{#if block.settings.is_profile_link2}}button--secondary{{/if}}"
+                  style="{{#if block.settings.is_profile_link2}}background-color: transparent;{{/if}}"
+                  title="{{block.settings.link_text_2}}"
+                  {{#if block.settings.link_2}}href="{{block.settings.link_2}}"{{else}}role="link"{{/if}}
+                >
+                  {{block.settings.link_text_2}}
+                </{{ele}}>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    {{/for}}
+  </div>
+  <div class="slider-paginations {{#if section.settings.autoplay}} is-autoplay{{/if}} display-none-desktop">
+    {{#for section.blocks}}
+      <button class="slider-pagination" name="pager" data-index="{{forloop.index0}}"></button>
+    {{/for}}
+  </div>
+  {{assign "mb_static_image1" (default section.settings.mb_static_image1 section.settings.pc_static_image1)}}
+  {{assign "mb_static_image2" (default section.settings.mb_static_image2 section.settings.pc_static_image2)}}
+  <div class="featured-slideshow-right {{#if (isFalsey mb_static_image1) and (isFalsey mb_static_image2)}}empty{{/if}}">
+    <div
+      class="feature-slideshow-item"
+      style="--overlay_opacity:{{section.settings.overlay_opacity1}};--pc_static_text_position:{{section.settings.pc_static_text_position1}};--static_text_align:{{section.settings.static_text_align1}};--mb_static_text_align:{{section.settings.mb_static_text_align1}};--title_size:{{section.settings.title_size1}}px;--text_color:{{section.settings.text_color1}};"
+    >
+      
+      {{#if section.settings.pc_static_image1}}
+        {{snippet
+          "image"
+          data=section.settings.pc_static_image1
+          pc_size="1/2"
+          class="static__image display-none display-block-desktop"
+        }}
+      {{else}}
+        <div class="static_placeholder-image display-none display-flex-desktop">
+          {{placeholder_svg_tag "image"}}
+        </div>
+      {{/if}}
+      
+      {{#if mb_static_image1}}
+        {{snippet "image" data=mb_static_image1 mobile_size="1" class="static__image display-none-desktop"}}
+      {{else}}
+        <div class="static_placeholder-image display-none-desktop">
+          {{placeholder_svg_tag "image"}}
+        </div>
+      {{/if}}
+      <{{#if section.settings.jump_link1}}a{{else}}div{{/if}}
+        class="content"
+        {{#if section.settings.jump_link1}}href={{section.settings.jump_link1}}{{/if}}
+      >
+        <div class="content--main">
+          <h2 class="tit title3">{{section.settings.title1}}</h2>
+          <p class="text body2">{{{section.settings.subheading1}}}</p>
+        </div>
+      </{{#if section.settings.jump_link1}}a{{else}}div{{/if}}>
+    </div>
+    <div
+      class="feature-slideshow-item static-item-2"
+      style="--overlay_opacity:{{section.settings.overlay_opacity2}};--pc_static_text_position:{{section.settings.pc_static_text_position2}};--static_text_align:{{section.settings.static_text_align2}};--mb_static_text_align:{{section.settings.mb_static_text_align2}};--title_size:{{section.settings.title_size2}}px;--text_color:{{section.settings.text_color2}};"
+    >
+      
+      {{#if section.settings.pc_static_image2}}
+        {{snippet
+          "image"
+          data=section.settings.pc_static_image2
+          pc_size="1/2"
+          class="static__image display-none display-block-desktop"
+        }}
+      {{else}}
+        <div class="static_placeholder-image display-none display-flex-desktop">
+          {{placeholder_svg_tag "image"}}
+        </div>
+      {{/if}}
+      
+      {{#if mb_static_image2}}
+        {{snippet "image" data=mb_static_image2 mobile_size="1" class="static__image display-none-desktop"}}
+      {{else}}
+        <div class="static_placeholder-image display-none-desktop">
+          {{placeholder_svg_tag "image"}}
+        </div>
+      {{/if}}
+      <{{#if section.settings.jump_link2}}a{{else}}div{{/if}}
+        class="content"
+        {{#if section.settings.jump_link2}}href={{section.settings.jump_link2}}{{/if}}
+      >
+        <div class="content--main">
+          <h2 class="tit title3">{{section.settings.title2}}</h2>
+          <p class="text body2">{{{section.settings.subheading2}}}</p>
+        </div>
+      </{{#if section.settings.jump_link2}}a{{else}}div{{/if}}>
+    </div>
+
+  </div>
+  {{#if section.blocks.length > 1}}
+    <div class="featured-slideshow__control featured-slideshow__control--arrows display-none display-block-desktop">
+      <div class="featured-control__arrow-buttons">
+        <button class="featured-control__arrow-button" name="previous">
+          {{snippet "icon-arrow"}}
+        </button>
+        <button class="featured-control__arrow-button" name="next">
+          {{snippet "icon-arrow"}}
+        </button>
+      </div>
+    </div>
+  {{/if}}
+  <div
+    class="slider-paginations {{#if section.settings.autoplay}} is-autoplay{{/if}} display-none display-flex-desktop"
+  >
+    {{#for section.blocks}}
+      <button class="slider-pagination" name="pager" data-index="{{forloop.index0}}"></button>
+    {{/for}}
+  </div>
+</featured-slideshow-section>
+
+{{#schema}}
+{
+  "name": "t:sections.featured-slideshow.name",
+  "class": "section index-section--hero page-width",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "t:sections.featured-slideshow.settings.section_height.label",
+      "default": "natural",
+      "options": [
+        {
+          "label": "t:sections.featured-slideshow.settings.section_height.options__0.label",
+          "value": "natural"
+        },
+        {
+          "label": "t:sections.featured-slideshow.settings.section_height.options__1.label",
+          "value": "450px"
+        },
+        {
+          "label": "t:sections.featured-slideshow.settings.section_height.options__2.label",
+          "value": "550px"
+        },
+        {
+          "label": "t:sections.featured-slideshow.settings.section_height.options__3.label",
+          "value": "650px"
+        },
+        {
+          "label": "t:sections.featured-slideshow.settings.section_height.options__4.label",
+          "value": "750px"
+        }
+      ]
+    },
+    {
+      "type": "switch",
+      "id": "autoplay",
+      "label": "t:sections.featured-slideshow.settings.autoplay.label",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:sections.featured-slideshow.settings.autoplay_speed.label",
+      "default": 7,
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "t:sections.featured-slideshow.settings.autoplay_speed.unit"
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.featured-slideshow.settings.group_header__0.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_static_image1",
+      "label": "t:sections.featured-slideshow.settings.pc_static_image1.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "mb_static_image1",
+      "label": "t:sections.featured-slideshow.settings.mb_static_image1.label"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity1",
+      "label": "t:sections.featured-slideshow.settings.overlay_opacity1.label",
+      "default": 20,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "pc_static_text_position1",
+      "label": "t:sections.featured-slideshow.settings.pc_static_text_position1.label",
+      "default": "flex-start",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:sections.featured-slideshow.settings.pc_static_text_position1.options__0.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.featured-slideshow.settings.pc_static_text_position1.options__1.label"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:sections.featured-slideshow.settings.pc_static_text_position1.options__2.label"
+        }
+      ]
+    },
+    {
+      "id": "static_text_align1",
+      "type": "select",
+      "label": "t:sections.featured-slideshow.settings.static_text_align1.label",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.featured-slideshow.settings.static_text_align1.options__0.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.featured-slideshow.settings.static_text_align1.options__1.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.featured-slideshow.settings.static_text_align1.options__2.label"
+        }
+      ]
+    },
+    {
+      "id": "mb_static_text_align1",
+      "type": "select",
+      "label": "t:sections.featured-slideshow.settings.mb_static_text_align1.label",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.featured-slideshow.settings.mb_static_text_align1.options__0.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.featured-slideshow.settings.mb_static_text_align1.options__1.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.featured-slideshow.settings.mb_static_text_align1.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "title1",
+      "label": "t:sections.featured-slideshow.settings.title1.label",
+      "default": "Indices",
+      "limit": 500
+    },
+    {
+      "type": "range",
+      "id": "title_size1",
+      "label": "t:sections.featured-slideshow.settings.title_size1.label",
+      "default": 36,
+      "min": 40,
+      "max": 100,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "subheading1",
+      "label": "t:sections.featured-slideshow.settings.subheading1.label",
+      "default": "Fresh Finds for the Season"
+    },
+    {
+      "type": "url",
+      "id": "jump_link1",
+      "label": "t:sections.featured-slideshow.settings.jump_link1.label"
+    },
+    {
+      "type": "color",
+      "id": "text_color1",
+      "label": "t:sections.featured-slideshow.settings.text_color1.label",
+      "default": "#122D47"
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.featured-slideshow.settings.group_header__1.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_static_image2",
+      "label": "t:sections.featured-slideshow.settings.pc_static_image2.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "mb_static_image2",
+      "label": "t:sections.featured-slideshow.settings.mb_static_image2.label"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity2",
+      "label": "t:sections.featured-slideshow.settings.overlay_opacity2.label",
+      "default": 20,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "pc_static_text_position2",
+      "label": "t:sections.featured-slideshow.settings.pc_static_text_position2.label",
+      "default": "flex-start",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:sections.featured-slideshow.settings.pc_static_text_position2.options__0.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.featured-slideshow.settings.pc_static_text_position2.options__1.label"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:sections.featured-slideshow.settings.pc_static_text_position2.options__2.label"
+        }
+      ]
+    },
+    {
+      "id": "static_text_align2",
+      "type": "select",
+      "label": "t:sections.featured-slideshow.settings.static_text_align2.label",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.featured-slideshow.settings.static_text_align2.options__0.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.featured-slideshow.settings.static_text_align2.options__1.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.featured-slideshow.settings.static_text_align2.options__2.label"
+        }
+      ]
+    },
+    {
+      "id": "mb_static_text_align2",
+      "type": "select",
+      "label": "t:sections.featured-slideshow.settings.mb_static_text_align2.label",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.featured-slideshow.settings.mb_static_text_align2.options__0.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.featured-slideshow.settings.mb_static_text_align2.options__1.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.featured-slideshow.settings.mb_static_text_align2.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "title2",
+      "label": "t:sections.featured-slideshow.settings.title2.label",
+      "default": "Indices",
+      "limit": 500
+    },
+    {
+      "type": "range",
+      "id": "title_size2",
+      "label": "t:sections.featured-slideshow.settings.title_size2.label",
+      "default": 36,
+      "min": 40,
+      "max": 100,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "subheading2",
+      "label": "t:sections.featured-slideshow.settings.subheading2.label",
+      "default": "Fresh Finds for the Season"
+    },
+    {
+      "type": "url",
+      "id": "jump_link2",
+      "label": "t:sections.featured-slideshow.settings.jump_link2.label"
+    },
+    {
+      "type": "color",
+      "id": "text_color2",
+      "label": "t:sections.featured-slideshow.settings.text_color2.label",
+      "default": "#122D47"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "icon": "image",
+      "name": "t:sections.featured-slideshow.blocks.image.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.image.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.image_mobile.label"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.overlay_opacity.label",
+          "default": 20,
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "%"
+        },
+        {
+          "type": "switch",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.text_mask.label",
+          "id": "text_mask",
+          "default": false
+        },
+        {
+          "type": "select",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.text_mask_color.label",
+          "id": "text_mask_color",
+          "default": "deep",
+          "options": [
+            {
+              "label": "t:sections.featured-slideshow.blocks.image.settings.text_mask_color.options__0.label",
+              "value": "deep"
+            },
+            {
+              "label": "t:sections.featured-slideshow.blocks.image.settings.text_mask_color.options__1.label",
+              "value": "light"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "pc_text_position",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.label",
+          "default": "center flex-start",
+          "options": [
+            {
+              "value": "center flex-start",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.options__0.label"
+            },
+            {
+              "value": "center center",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.options__1.label"
+            },
+            {
+              "value": "center flex-end",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.options__2.label"
+            },
+            {
+              "value": "flex-start flex-start",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.options__3.label"
+            },
+            {
+              "value": "flex-start center",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.options__4.label"
+            },
+            {
+              "value": "flex-start flex-end",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.options__5.label"
+            },
+            {
+              "value": "flex-end flex-start",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.options__6.label"
+            },
+            {
+              "value": "flex-end center",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.options__7.label"
+            },
+            {
+              "value": "flex-end flex-end",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_position.options__8.label"
+            }
+          ]
+        },
+        {
+          "id": "pc_text_align",
+          "type": "select",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_align.label",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_align.options__0.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_align.options__1.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.pc_text_align.options__2.label"
+            }
+          ]
+        },
+        {
+          "id": "mobile_text_align",
+          "type": "select",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.mobile_text_align.label",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.mobile_text_align.options__0.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.mobile_text_align.options__1.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.featured-slideshow.blocks.image.settings.mobile_text_align.options__2.label"
+            }
+          ]
+        },
+        {
+          "type": "group_header",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.group_header__0.label"
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.sub_title.label"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.title.label",
+          "default": "Two Line\nTitle Slide",
+          "limit": 500
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.title_size.label",
+          "default": 40,
+          "min": 30,
+          "max": 100,
+          "unit": "px"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.subheading.label",
+          "default": "And optional subtext"
+        },
+        {
+          "type": "group_header",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.group_header__1.label",
+          "info": "t:sections.featured-slideshow.blocks.image.settings.group_header__1.info"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.link_text.label",
+          "default": "Shop this"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.link.label"
+        },
+        {
+          "type": "switch",
+          "id": "is_profile_link",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.is_profile_link.label",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "link_text_2",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.link_text_2.label",
+          "default": "Shop all"
+        },
+        {
+          "type": "url",
+          "id": "link_2",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.link_2.label"
+        },
+        {
+          "type": "switch",
+          "id": "is_profile_link2",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.is_profile_link2.label",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "t:sections.featured-slideshow.blocks.image.settings.text_color.label",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category_index": 1,
+      "category": "t:sections.featured-slideshow.presets.presets__0.category",
+      "name": "t:sections.featured-slideshow.presets.presets__0.name",
+      "settings": {
+        "section_height": "natural",
+        "mobile_height": "natural",
+        "overlay_opacity1": 20,
+        "overlay_opacity2": 20,
+        "autoplay": true,
+        "autoplay_speed": 7,
+        "pc_static_text_position1": "flex-start",
+        "static_text_align1": "left",
+        "mb_static_text_align1": "left",
+        "title1": "Indices",
+        "title_size1": 36,
+        "subheading1": "Fresh Finds for the Season",
+        "jump_link1": "",
+        "text_color1": "#122D47",
+        "pc_static_text_position2": "flex-start",
+        "static_text_align2": "left",
+        "mb_static_text_align2": "left",
+        "title2": "Indices",
+        "title_size2": 36,
+        "subheading2": "Fresh Finds for the Season",
+        "jump_link2": "",
+        "text_color2": "#122D47"
+      },
+      "blocks": [
+        {
+          "type": "image",
+          "icon": "image",
+          "settings": {
+            "image": {},
+            "image_mobile": {},
+            "overlay_opacity": 20,
+            "pc_text_position": "center flex-start",
+            "pc_text_align": "left",
+            "mobile_text_align": "left",
+            "title": "Two Line\nTitle Slide",
+            "title_size": 40,
+            "sub_title": "",
+            "subheading": "And optional subtext",
+            "link_text": "Shop this",
+            "is_profile_link": false,
+            "link_text_2": "Shop all",
+            "is_profile_link2": false,
+            "text_color": "#FFFFFF"
+          }
+        },
+        {
+          "type": "image",
+          "icon": "image",
+          "settings": {
+            "image": {},
+            "image_mobile": {},
+            "overlay_opacity": 20,
+            "pc_text_position": "center flex-start",
+            "pc_text_align": "left",
+            "mobile_text_align": "left",
+            "title": "Two Line\nTitle Slide",
+            "title_size": 40,
+            "sub_title": "",
+            "subheading": "And optional subtext",
+            "link_text": "Shop this",
+            "is_profile_link": false,
+            "link_text_2": "Shop all",
+            "is_profile_link2": false,
+            "text_color": "#FFFFFF"
+          }
+        }
+      ]
+    }
+  ]
+}
+{{/schema}}

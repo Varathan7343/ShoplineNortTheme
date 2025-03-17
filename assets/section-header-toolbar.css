@@ -1,0 +1,209 @@
+.shopline-section-header-sticky .toolbar {
+  display: none;
+}
+.toolbar-wrapper {
+  --color-text: var(--toolbar_link_color);
+  --color-page-background: var(--toolbar_bacground_color);
+  background-color: rgb(var(--color-page-background));
+  color: rgb(var(--color-text));
+}
+.toolbar {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
+@media (max-width: 959px) {
+  .toolbar {
+    display: none;
+  }
+}
+.toolbar .header-inline-menus__link {
+  color: rgb(var(--color-text));
+}
+.toolbar .header-inline-menus__link:hover {
+  color: rgb(var(--toolbar_link_hover_color));
+}
+.toolbar .header-inline-menus__link::after {
+  background: rgb(var(--toolbar_link_hover_color));
+}
+.toolbar .toolbar-social a {
+  color: rgb(var(--color-text));
+}
+.toolbar .toolbar-social a :hover {
+  transform-origin: center;
+  color: rgb(var(--toolbar_link_hover_color));
+}
+.toolbar .dropdown-menu__button {
+  color: rgb(var(--color-text));
+}
+.toolbar .dropdown-menu__button::before {
+  display: none;
+}
+.toolbar .dropdown-menu__button:hover {
+  color: rgb(var(--toolbar_link_hover_color));
+}
+.toolbar.toolbar__full_width {
+  max-width: 100%;
+}
+.toolbar .toolbar-menu {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.toolbar .toolbar-menu .toolbar-menu__item {
+  padding: 8px 10px;
+}
+.toolbar .toolbar-menu .toolbar-menu__item:first-child {
+  padding-left: 0;
+}
+.toolbar .toolbar-menu .toolbar-menu__item__link {
+  padding: 0;
+}
+.toolbar .toolbar-social {
+  display: flex;
+  list-style: none;
+  padding: 11px 0;
+  margin: 0;
+  column-gap: 15px;
+  align-items: center;
+}
+.toolbar .toolbar-social svg {
+  width: 16px;
+  height: 16px;
+}
+.toolbar .toolbar-social img {
+  width: 16px !important;
+  height: auto;
+}
+.toolbar .toolbar-social {
+  margin-right: 32px;
+}
+.toolbar .toolbar-social li {
+  display: flex;
+}
+.toolbar .toolbar-social a {
+  display: flex;
+  align-items: center;
+}
+.toolbar .toolbar-social:last-child {
+  margin-right: 0px;
+}
+@keyframes animateBottomLocalization {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(10px);
+  }
+}
+@keyframes animateTopLocalization {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+.toolbar .shopline-localization-form {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+  gap: 32px;
+}
+.toolbar .shopline-localization-form .dropdown-menu {
+  padding: 8px 0;
+}
+.toolbar .shopline-localization-form .dropdown-menu__button {
+  background-color: transparent;
+  gap: unset;
+  padding: 0;
+  font-weight: unset;
+  font-size: inherit;
+}
+.toolbar .shopline-localization-form .dropdown-menu__button::after {
+  box-shadow: unset;
+}
+.toolbar .shopline-localization-form .dropdown-menu__button:hover::after {
+  box-shadow: unset;
+}
+.toolbar .shopline-localization-form .dropdown-menu__list-wrapper {
+  animation: animateBottomLocalization 200ms ease;
+  transform: translateY(10px);
+  bottom: unset;
+}
+@media (min-width: 960px) {
+  .toolbar .shopline-localization-form .dropdown-menu__list-wrapper {
+    right: 0;
+  }
+}
+.toolbar
+  .shopline-localization-form
+  .dropdown-menu__list-wrapper
+  .dropdown-menu__list {
+  max-width: 200px;
+}
+@media (max-width: 959px) {
+  .toolbar.toolbar-drawer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 30px;
+  }
+}
+.toolbar.toolbar-drawer .toolbar-menu {
+  margin-top: 6px;
+  flex: 1 0 100%;
+}
+.toolbar.toolbar-drawer .toolbar-menu .toolbar-menu__item {
+  flex-basis: 50%;
+}
+.toolbar.toolbar-drawer .toolbar-menu .toolbar-menu__item {
+  padding: 8px 0px;
+}
+.toolbar.toolbar-drawer .toolbar-social {
+  width: 100%;
+  margin: 0;
+  padding: 15px 0;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  column-gap: 12px;
+  row-gap: 12px;
+}
+.toolbar.toolbar-drawer .toolbar-social svg {
+  width: 24px;
+  height: 24px;
+}
+.toolbar.toolbar-drawer .toolbar-social img {
+  width: 24px !important;
+  height: auto;
+}
+.header__menu-drawer .toolbar-wrapper {
+  flex: 1 1 100%;
+}
+.header__menu-drawer .drawer__main {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+.header__menu-drawer accordion-component {
+  flex: 1 1 100%;
+}
+.header__menu-drawer .shopline-localization-form .dropdown-menu__list-wrapper {
+  bottom: 100%;
+  animation: animateTopLocalization 200ms ease;
+  transform: translateY(0px);
+}
+/* The ipad end responds to the mobile end in vertical screen */
+/* @custom-media --tablet (max-width: 959px); */
+/* @custom-media --gt-mobile (min-width: 751px); */
+/* detectingScreen need to consider the configuration of the tablet */

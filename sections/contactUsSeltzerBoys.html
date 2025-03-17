@@ -1,0 +1,307 @@
+{{snippet "stylesheet" href=(asset_url "component-contact-form.css")}}
+<script src="{{asset_url 'component-contact-form.js'}}" defer></script>
+
+{{snippet
+  "section-padding-creator"
+  section_id=section.id
+  padding_top=section.settings.padding_top
+  padding_bottom=section.settings.padding_bottom
+}}
+
+<div class="color-scheme-{{section.settings.color_scheme}}">
+  <div class="contact page-width page-width--narrow section-padding">
+    {{#if section.settings.heading}}
+      <h2 class="title title-wrapper--no-top-margin {{section.settings.heading_size}}">
+        {{section.settings.heading}}
+      </h2>
+    {{/if}}
+    <contact-form>
+      {{#form "contact" class="contact-form"}}
+        {{#if form.posted_successfully}}
+          <h2 class="field__info field__info--success">
+            {{snippet "icon-success"}}
+            {{t "general.contact_us.success_feedback"}}
+          </h2>
+        {{/if}}
+        {{#if form.errors.messages}}
+          <h2 class="field__info field__info--error">
+            {{snippet "icon-error"}}
+            {{form.errors.messages}}
+          </h2>
+        {{/if}}
+        <div class="contact__fields">
+          <div class="field">
+            <input
+              class="field__input"
+              autocomplete="name"
+              type="text"
+              id="ContactForm-name"
+              name="contact[name]"
+              value="{{form.name}}"
+              placeholder="{{t 'general.general.username'}}"
+              title="{{t 'general.general.username'}}"
+              required
+            />
+            <label class="field__label" for="ContactForm-name">{{t "general.general.username"}}</label>
+          </div>
+          <div class="field">
+            <input
+              class="field__input"
+              autocomplete="lastname"
+              type="text"
+              id="ContactForm-lastname"
+              name="contact[lastname]"
+              value="{{form.lastname}}"
+              placeholder="{{t 'general.general.username'}}"
+              title="{{t 'general.general.username'}}"
+            />
+            <label class="field__label" for="ContactForm-name">Last Name</label>
+          </div>
+        </div>
+        <div class="field field--with-error">
+            {{snippet
+              "input-email"
+              input_autocomplete="email"
+              input_id="ContactForm-email"
+              input_class="field__input"
+              input_name="contact[email]"
+              input_spellcheck="false"
+              input_autocapitalize="off"
+              input_required=true
+              input_value=form.email
+              input_placeholder=(t "customer.email.mail_common")
+              input_title=(t "customer.email.mail_common")
+            }}
+            <label class="field__label" for="ContactForm-email">
+              {{t "customer.email.mail_common"}}
+              <span>*</span></label>
+          </div>
+        <div class="field">
+          <input
+            type="tel"
+            id="ContactForm-phone"
+            class="field__input"
+            autocomplete="tel"
+            name="contact[phone]"
+            pattern="[0-9\-]*"
+            value="{{form.phone}}"
+            placeholder="{{t 'general.general.tel_phone'}}"
+            title="{{t 'general.general.tel_phone'}}"
+            required
+          />
+          <label class="field__label" for="ContactForm-phone">{{t "general.general.tel_phone"}}</label>
+        </div>
+        <div class="field">
+            <input
+              class="field__input"
+              autocomplete="company"
+              type="text"
+              id="ContactForm-company"
+              name="contact[company]"
+              value="{{form.company}}"
+              placeholder="{{t 'general.general.username'}}"
+              title="{{t 'general.general.username'}}"
+              required
+            />
+            <label class="field__label" for="ContactForm-name">Company Name</label>
+          </div>
+           <div class="field">
+          <select
+          class="field__input"
+          autocomplete="space"
+          type="text"
+          id="ContactForm-space"
+          name="contact[space]"
+          value="{{form.space}}"
+          placeholder="space"
+          title="{{t 'space'}}"
+          style="padding: 1px 17px;"
+          >
+            <option value="" disabled selected>Space</option>
+            <option value="New York">MocktailHours</option>
+            <option value="Texas">Dessert Egg Cream Station</option>
+            <option value="Florida">Centerpieces</option>
+          </select>
+        </div> 
+        <div class="contact__fields">
+        <div class="field">
+            <label for="startDate" style="padding-left:15px;">Event Date:</label>
+            <input class="field__input" style="width:50%;padding-bottom: 22px;" type="date" id="startDate" name="contact[startDate]" title="{{t 'startDate'}}">
+        </div>
+         <div class="field">
+             <select
+          class="field__input"
+          autocomplete="event"
+          type="text"
+          id="ContactForm-event"
+          name="contact[event]"
+          value="{{form.event}}"
+          placeholder="event"
+          title="{{t 'event'}}"
+          style="padding: 1px 17px;"
+          >
+            <option value="" disabled selected>Type of Event</option>
+            <option value="New York">Alumni</option>
+            <option value="Bachelor / Bachelorette">Bachelor / Bachelorette</option>
+            <option value="Birthday">Birthday</option>
+            <option value="Cocktail">Cocktail Reception</option>
+            <option value="Corporate">Corporate Lunch</option>
+            <option value="Engagement">Engagement</option>
+            <option value="Fundraiser">Fundraiser</option>
+            <option value="Graduation">Graduation</option>
+            <option value="Holiday">Holiday</option>
+            <option value="Meeting / Presentation">Meeting / Presentation</option>
+            <option value="Photo/Film Shoot">Photo/Film Shoot</option>
+            <option value="Private Dinner">Private Dinner</option>
+            <option value="Rehearsal Dinner">Rehearsal Dinner</option>
+            <option value="Shower">Shower</option>
+            <option value="Sporting Event">Sporting Event</option>
+            <option value="Wedding">Wedding</option>
+            <option value="Other">Other</option>
+            </select>
+         </div>
+        </div>
+        <div class="contact__fields">
+            <div class="field">
+                <label for="appt" style="padding-left: 20px;">Start time:</label>
+                <input class="field__input" style="width: 50%;padding-bottom: 20px;" type="time" id="startTime" name="contact[startTime]" title="{{t 'startTime'}}">
+            </div>
+            <div class="field">
+                <label for="appt" style="padding-left: 20px;">End time:</label>
+                <input class="field__input" style="width: 50%;padding-bottom: 20px;" type="time" id="endTime" name="contact[endTime]" title="{{t 'endTime'}}">
+            </div>
+        </div>
+        <div class="field">
+          <input
+            type="tel"
+            id="ContactForm-noPeople"
+            class="field__input"
+            autocomplete="tel"
+            name="contact[noPeople]"
+            pattern="[0-9\-]*"
+            value="{{form.noPeople}}"
+            placeholder="{{t 'noPeople'}}"
+            title="{{t 'noPeople'}}"
+            required
+          />
+          <label class="field__label" for="ContactForm-phone">No Of People</label>
+        </div>
+        <div class="field">
+          <textarea
+            rows="10"
+            id="ContactForm-body"
+            class="field__input text-area"
+            name="contact[comment]"
+            placeholder="{{t 'products.product_details.message'}}"
+            title="{{t 'products.product_details.message'}}"
+          >{{form.body}}</textarea>
+          <label class="form__label field__label" for="ContactForm-body">
+            Please let us know what's on your mind. Have a question for us? Ask away.
+          </label>
+        </div>
+        <div class="contact__button">
+          <button type="submit" class="button">
+            {{t "customer.general.send"}}
+          </button>
+        </div>
+      {{/form}}
+    </contact-form>
+  </div>
+</div>
+
+{{#schema}}
+{
+  "name": "t:sections.contact-form.name",
+  "class": "section",
+  "presets": [
+    {
+      "category_index": 3,
+      "category": "t:sections.contact-form.presets.presets__0.category",
+      "name": "t:sections.contact-form.presets.presets__0.name",
+      "setting": {
+        "heading": "Contact us",
+        "heading_size": "title3",
+        "color_scheme": "none",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Contact us",
+      "label": "t:sections.contact-form.settings.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "title5",
+          "label": "t:sections.contact-form.settings.heading_size.options__0.label"
+        },
+        {
+          "value": "title3",
+          "label": "t:sections.contact-form.settings.heading_size.options__1.label"
+        },
+        {
+          "value": "title2",
+          "label": "t:sections.contact-form.settings.heading_size.options__2.label"
+        }
+      ],
+      "default": "title3",
+      "label": "t:sections.contact-form.settings.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "t:sections.contact-form.settings.color_scheme.label",
+      "default": "none",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.contact-form.settings.color_scheme.options__0.label"
+        },
+        {
+          "value": "1",
+          "label": "t:sections.contact-form.settings.color_scheme.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.contact-form.settings.color_scheme.options__2.label"
+        },
+        {
+          "value": "3",
+          "label": "t:sections.contact-form.settings.color_scheme.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.contact-form.settings.group_header__0.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.contact-form.settings.padding_top.label",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.contact-form.settings.padding_bottom.label",
+      "default": 80
+    }
+  ]
+}
+{{/schema}}

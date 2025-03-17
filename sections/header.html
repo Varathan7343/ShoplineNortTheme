@@ -1,0 +1,1237 @@
+{{assign "main_menu" section.settings.main_menu_link_list}}
+{{assign "second_menu_link_list" section.settings.second_menu_link_list}}
+{{assign "mobile_top_menu" section.settings.mobile_top_menu}}
+{{snippet "stylesheet" href=(asset_url "section-header.css")}}
+
+<script src="{{asset_url 'component-predictive-search.js'}}" defer></script>
+<script src="{{asset_url 'section-header-modal.js'}}" defer></script>
+
+<script src="{{asset_url 'section-header-header-layout.js'}}" defer></script>
+
+{{snippet "stylesheet" href=(asset_url "component-cart-coupon.css")}}
+<script src="{{asset_url 'component-cart-coupon.js'}}" defer></script>
+
+{{#if settings.cart_type == "drawer"}}
+  {{snippet "stylesheet" href=(asset_url "section-cart-drawer.css")}}
+  {{snippet "stylesheet" href=(asset_url "snippet-cart-fixed-checkout.css")}}
+  {{snippet "stylesheet" href=(asset_url "snippet-cart-item.css")}}
+  {{snippet "stylesheet" href=(asset_url "component-cart.css")}}
+  <script src="{{asset_url 'component-quantity-input.js'}}" defer="defer"></script>
+  <script src="{{asset_url 'component-cart.js'}}" defer="defer"></script>
+  <script src="{{asset_url 'section-cart-drawer.js'}}" defer="defer"></script>
+{{/if}}
+
+{{#if settings.cart_type == "notification"}}
+  {{snippet "stylesheet" href=(asset_url "component-cart-notification.css")}}
+  <script src="{{asset_url 'component-cart-notification.js'}}" defer="defer"></script>
+{{/if}}
+
+{{#if section.settings.show_tool}}
+  {{snippet "stylesheet" href=(asset_url "section-header-toolbar.css")}}
+{{/if}}
+
+{{#if section.settings.show_icon}}
+  {{snippet "stylesheet" href=(asset_url "section-header-logo-list.css")}}
+{{/if}}
+
+
+{{#if section.settings.show_icon}}
+  {{snippet "stylesheet" href=(asset_url "section-header-logo-list.css")}}
+{{/if}}
+
+{{#if section.settings.sticky_header_type != "none"}}
+  {{assign "is_sticky" true}}
+{{/if}}
+{{#if template.name == "index"}}
+  {{assign "is_home" true}}
+{{/if}}
+{{assign "is_show_top_menu" true}}
+{{#if section.settings.mobile_top_menu_show_home and (isFalsey is_home)}}
+  {{assign "is_show_top_menu" false}}
+{{/if}}
+{{#if (isFalsey mobile_top_menu)}}
+  {{assign "is_show_top_menu" false}}
+{{/if}}
+{{#if is_show_top_menu}}
+  <script src="{{asset_url 'component-slider.js'}}" defer></script>
+{{/if}}
+
+{{assign "highlight_menus_list" (split "" ",")}}
+{{#if section.settings.enable_highlight}}
+  {{assign "highlight_menus_list" (split section.settings.highlight_menus ",")}}
+{{/if}}
+
+<style>
+  .header{
+    --header_background_color:{{ section.settings.header_background_color.red }}, {{ section.settings.header_background_color.green }}, {{section.settings.header_background_color.blue }};
+    --header_text_color:{{ section.settings.header_text_color.red }}, {{ section.settings.header_text_color.green }}, {{section.settings.header_text_color.blue }};
+    --menu_background_color:{{ section.settings.menu_background_color.red }}, {{ section.settings.menu_background_color.green }}, {{section.settings.menu_background_color.blue }};
+    --menu_text_color:{{ section.settings.menu_text_color.red }}, {{ section.settings.menu_text_color.green }}, {{section.settings.menu_text_color.blue }};
+    --search_color:{{ section.settings.search_color.red }}, {{ section.settings.search_color.green }}, {{section.settings.search_color.blue }};
+    --search_bacground_color:{{ section.settings.search_bacground_color.red }}, {{ section.settings.search_bacground_color.green }}, {{section.settings.search_bacground_color.blue }};
+    --header-highlight-background: {{section.settings.highlight_bg_color}};
+    --header-highlight-text-color: {{section.settings.highlight_text_color}};
+  }
+</style>
+<header-layout data-sticky-type="{{section.settings.sticky_header_type}}">
+  {{#if section.settings.show_tool}}
+    {{snippet "header-toolbar"}}
+  {{/if}}
+  <header
+    class="header section--padding
+      {{ternary is_sticky 'is-sticky' ''}}
+      {{ternary section.settings.show_divider 'show-divider' ''}}"
+    style="{{#if section.settings.header_division_bottom}}border-bottom: 1px solid rgb(var(--color-entry-line));{{/if}}"
+  >
+    <div class="header__container_wrapper">
+      <div
+        class="page-width header__container header__container--left-line
+          {{ternary section.settings.full_width 'header__full_width' ''}}
+          "
+      >
+        
+        {{assign "page_type" template.name}}
+        {{assign "pc_logo_width" settings.desktop_logo_width}}
+        {{assign "pc_logo_height" settings.desktop_logo_height}}
+        {{assign "mobile_logo_width" settings.mobile_logo_width}}
+        {{assign "mobile_logo_height" settings.mobile_logo_height}}
+
+        <{{#if page_type == "index"}}h1{{else}}div{{/if}} class="header__heading">
+          <a
+            class="header__heading-link"
+            style="
+          --header-logo-pc-width: {{pc_logo_width}}px;
+          --header-logo-pc-height: {{pc_logo_height}}px;
+          --header-logo-mobile-width: {{mobile_logo_width}}px;
+          --header-logo-mobile-height: {{mobile_logo_height}}px;
+          "
+            href="{{routes.root_url}}"
+          >
+            {{#if settings.logo}}
+              {{snippet
+                "image"
+                class="header__heading-logo header__heading-logo--nomal"
+                data=settings.logo
+                pc_size=(append pc_logo_width "px")
+                mobile_size=(append mobile_logo_width "px")
+                alt=(default settings.logo.alt shop.name)
+              }}
+            {{else}}
+              <span>{{shop.name}}</span>
+            {{/if}}
+          </a>
+        </{{#if page_type == "index"}}h1{{else}}div{{/if}}>
+
+        {{#if section.settings.show_icon}}
+          {{snippet "header-logo-list"}}
+        {{/if}}
+
+        <div class="header__tools">
+          <predictive-search
+            class="search-modal__content
+              {{#if (isFalsey section.settings.show_search_mobile)}}display-none-tablet{{/if}}"
+            data-show-suggested-menu="{{ternary section.settings.search_menu true false}}"
+          >
+            <form action="{{routes.search_url}}" method="get" class="search-modal__form search">
+              <div class="search-modal__field field">
+                <input
+                  id="Search-In-Modal-1"
+                  class="search-modal__input field__input body3"
+                  type="search"
+                  name="keyword"
+                  value=""
+                  placeholder="{{t 'general.search.search'}}"
+                  maxlength="255"
+                  autocorrect="off"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                />
+                <label class="search-modal__field-label field__label body4" for="Search-In-Modal-1">{{t
+                    "general.search.search"
+                  }}</label>
+                <button class="icon-button header__icon-button">
+                  {{snippet "icon-search"}}
+                </button>
+              </div>
+              <div class="predictive-search" tabindex="-1">
+                {{#if section.settings.search_menu}}
+                  <div class="predictive-search__suggested-menu">
+                    {{#for section.settings.search_menu.links as |link|}}
+                      <div class="predictive-search__suggested-menu__item">
+                        <a
+                          class="predictive-search__suggested-menu__link body3"
+                          {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                        >
+                          {{link.title}}
+                        </a>
+                      </div>
+                    {{/for}}
+                  </div>
+                {{/if}}
+                <div class="predictive-search__results" data-predictive-search></div>
+                <div class="predictive-search__loading-state">
+                  <span class="predictive-search__spinner">
+                    {{snippet "icon-loading"}}
+                  </span>
+                </div>
+              </div>
+            </form>
+          </predictive-search>
+        </div>
+
+        <div class="header__icons">
+          {{#if section.settings.show_user_entry}}
+            <a
+              class="icon-button header__icon-button
+                {{#if section.settings.user_mobile_layout == 'menu'}}display-none-tablet{{/if}}"
+              href="{{#if customer}}{{routes.account_url}}{{else}}{{routes.account_login_url}}{{/if}}"
+            >
+              {{snippet "icon-user"}}
+            </a>
+          {{/if}}
+
+          <a
+            id="cart-icon-bubble"
+            class="icon-button header__icon-button
+              {{#if (isFalsey section.settings.show_cart_entry)}}display-none{{/if}}"
+            href="{{routes.cart_url}}"
+          >
+            {{snippet "cart-icon-bubble" type=section.settings.cart_icon}}
+          </a>
+          
+          {{#if section.settings.toolbar_menu_position == "top"}}
+            {{assign "toolbar_class" "header__menu-drawer--top-toolbar"}}
+          {{else}}
+            {{assign "toolbar_class" "header__menu-drawer--bottom-toolbar"}}
+          {{/if}}
+          {{assign "drawer_class" (append "header__menu-drawer display-none-desktop " toolbar_class)}}
+          {{#snippet "drawer" class=drawer_class custom_element="header-modal" position="left" show_head_divider=true}}
+            {{#child "trigger"}}
+              <button class="icon-button header__icon-button">
+                {{snippet "icon-menu"}}
+              </button>
+            {{/child}}
+
+            {{#child "title"}}
+              {{#if section.settings.show_user_entry}}
+                <a
+                  class="header__user-center-button body3 fw-bold
+                    {{#if section.settings.user_mobile_layout == 'home'}}display-none-tablet{{/if}}"
+                  href="{{#if customer}}{{routes.account_url}}{{else}}{{routes.account_login_url}}{{/if}}"
+                >
+                  {{snippet "icon-user"}}
+                  {{#not customer}}{{t "general.header.login"}}{{/not}}
+                </a>
+              {{/if}}
+            {{/child}}
+
+            {{#child}}
+              <accordion-component>
+                {{#if
+                  (isTruthy section.settings.show_tool)
+                  and
+                  (isTruthy section.settings.toolbar_menu_mobile)
+                  and
+                  section.settings.toolbar_menu_position
+                  ==
+                  "top"
+                  and
+                  section.settings.toolbar_menu.links.length
+                  >
+                  0
+                }}
+                  <ul class="header__drawer-menus list-unstyled">
+                    {{#for section.settings.toolbar_menu.links as |link|}}
+                      <li class="drawer-menus__sub-item">
+                        <a class="body4" {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}>
+                          {{link.title}}
+                        </a>
+                      </li>
+                    {{/for}}
+                    <div class="header__drawer-menus-divider"></div>
+                  </ul>
+                {{/if}}
+                <nav class="header__drawer-nav">
+                  <ul class="header__drawer-menus list-unstyled">
+                    {{#for main_menu.links as |link|}}
+                      {{assign "is_highlight" false}}
+                      {{#for highlight_menus_list as |hight_item|}}
+                        {{#if (uppercase link.title) == (uppercase hight_item)}}
+                          {{assign "is_highlight" true}}
+                          {{break}}
+                        {{/if}}
+                      {{/for}}
+                      {{#if (length link.links) > 0}}
+                        {{assign "is_megamenu" false}}
+                        {{#for link.links as |link|}}
+                          {{#if (length link.links) > 0}}
+                            {{assign "is_megamenu" true}}
+                          {{/if}}
+                        {{/for}}
+                        
+                        {{assign "menu_block" null}}
+                        {{#for section.blocks as |block|}}
+                          {{#if (uppercase link.title) == (uppercase block.settings.menu_title)}}
+                            {{assign "menu_block" block}}
+                            {{break}}
+                          {{/if}}
+                        {{/for}}
+                        {{assign "show_img1" menu_block.settings.image_1}}
+                        {{assign "show_img2" menu_block.settings.image_2}}
+                        {{assign "show_img3" menu_block.settings.image_3}}
+                        {{assign "has_img" false}}
+
+                        {{#if show_img1 or show_img2 or show_img3}}
+                          {{assign "has_img" true}}
+                        {{/if}}
+                        <li>
+                          <details>
+                            <summary class="body3">
+                              <div class="drawer-menus__item">
+                                <a
+                                  class="body4 fw-bold"
+                                  {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                                >
+                                  <span class="{{#if is_highlight}}menu-item--highlight{{/if}}">{{link.title}}</span>
+                                </a>
+                                <span class="drawer-menus__item-icon drawer-menus__item-icon-on">
+                                  {{snippet "icon-arrow"}}
+                                </span>
+                                <span class="drawer-menus__item-icon drawer-menus__item-icon-off">
+                                  {{snippet "icon-minus"}}
+                                </span>
+                              </div>
+                            </summary>
+                            
+                            {{#if has_img}}
+                              {{snippet
+                                "header-image"
+                                menu_block=menu_block
+                                show_img1=show_img1
+                                show_img2=show_img2
+                                show_img3=show_img3
+                                type="left"
+                              }}
+                            {{/if}}
+                            <ul class="drawer-menus__sub-menus list-unstyled">
+                              {{#for link.links as |link|}}
+                                {{#if (length link.links) > 0}}
+                                  <details>
+                                    <summary class="body5">
+                                      <div class="drawer-menus__sub-item">
+
+                                        <a
+                                          class="body5"
+                                          {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                                        >{{link.title}}</a>
+                                        <span class="drawer-menus__item-icon drawer-menus__item-icon-on">
+                                          {{snippet "icon-arrow"}}
+                                        </span>
+                                        <span class="drawer-menus__item-icon drawer-menus__item-icon-off">
+                                          {{snippet "icon-minus"}}
+                                        </span>
+                                      </div>
+                                    </summary>
+                                    <ul class="drawer-menus__sub-menus list-unstyled">
+                                      {{#for link.links as |link|}}
+                                        <li class="drawer-menus__sub-item">
+                                          <a
+                                            class="body5"
+                                            {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                                          >{{link.title}}</a>
+                                        </li>
+                                      {{/for}}
+                                    </ul>
+                                  </details>
+                                {{else}}
+                                  <li class="drawer-menus__sub-item">
+                                    <a
+                                      class="body5"
+                                      {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                                    >{{link.title}}</a>
+                                  </li>
+                                {{/if}}
+                              {{/for}}
+                            </ul>
+                            
+                            {{#if has_img}}
+                              {{snippet
+                                "header-image"
+                                menu_block=menu_block
+                                show_img1=show_img1
+                                show_img2=show_img2
+                                show_img3=show_img3
+                                type="right"
+                              }}
+                            {{/if}}
+                          </details>
+                        </li>
+                      {{else}}
+                        <li class="drawer-menus__sub-item">
+                          <a
+                            class="body4 fw-bold"
+                            {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                          >
+                            <span class="{{#if is_highlight}}menu-item--highlight{{/if}}">{{link.title}}</span>
+                          </a>
+                        </li>
+                      {{/if}}
+                    {{/for}}
+                  </ul>
+                </nav>
+                {{#if second_menu_link_list}}
+                  <div class="header__drawer-menus-divider"></div>
+                  <ul class="header__drawer-menus list-unstyled">
+                    {{#for second_menu_link_list.links as |link|}}
+                      <li class="drawer-menus__sub-item">
+                        <a class="body4" {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}>
+                          {{link.title}}
+                        </a>
+                      </li>
+                    {{/for}}
+                  </ul>
+                {{/if}}
+                {{#if
+                  (isTruthy section.settings.show_tool)
+                  and
+                  (isTruthy section.settings.toolbar_menu_mobile)
+                  and
+                  section.settings.toolbar_menu_position
+                  ==
+                  "bottom"
+                  and
+                  section.settings.toolbar_menu.links.length
+                  >
+                  0
+                }}
+                  <div class="header__drawer-menus-divider"></div>
+                  <ul class="header__drawer-menus list-unstyled">
+                    {{#for section.settings.toolbar_menu.links as |link|}}
+                      <li class="drawer-menus__sub-item">
+                        <a class="body4" {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}>
+                          {{link.title}}
+                        </a>
+                      </li>
+                    {{/for}}
+                  </ul>
+                {{/if}}
+              </accordion-component>
+              {{#if section.settings.show_tool}}
+                {{snippet "header-toolbar" class="toolbar-drawer"}}
+              {{/if}}
+            {{/child}}
+          {{/snippet}}
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="header__inline-nav-wrapper">
+      <nav
+        class="header__inline-nav page-width
+          {{ternary section.settings.full_width 'header__full_width' ''}}
+          display-none-tablet"
+      >
+        <ul class="header__inline-menus list-unstyled">
+          {{#for main_menu.links as |link|}}
+            {{assign "is_megamenu" false}}
+            {{#for link.links as |link|}}
+              {{#if (length link.links) > 0}}
+                {{assign "is_megamenu" true}}
+              {{/if}}
+            {{/for}}
+
+            
+            {{assign "menu_block" null}}
+            {{#for section.blocks as |block|}}
+              {{#if (uppercase link.title) == (uppercase block.settings.menu_title)}}
+                {{assign "menu_block" block}}
+                {{break}}
+              {{/if}}
+            {{/for}}
+            {{assign "show_img1" menu_block.settings.image_1}}
+            {{assign "show_img2" menu_block.settings.image_2}}
+            {{assign "show_img3" menu_block.settings.image_3}}
+            {{assign "has_img" false}}
+
+            {{#if show_img1 or show_img2 or show_img3}}
+              {{assign "has_img" true}}
+            {{/if}}
+
+            {{assign "has_left_img" false}}
+            {{assign "has_right_img" false}}
+            {{#if
+              menu_block.settings.image_1_position
+              ==
+              "left"
+              or
+              menu_block.settings.image_2_position
+              ==
+              "left"
+              or
+              menu_block.settings.image_3_position
+              ==
+              "left"
+            }}
+              {{assign "has_left_img" true}}
+            {{/if}}
+            {{#if
+              menu_block.settings.image_1_position
+              ==
+              "right"
+              or
+              menu_block.settings.image_2_position
+              ==
+              "right"
+              or
+              menu_block.settings.image_3_position
+              ==
+              "right"
+            }}
+              {{assign "has_right_img" true}}
+            {{/if}}
+
+            {{#comment}}
+              highlight
+            {{/comment}}
+            {{assign "is_highlight" false}}
+            {{#for highlight_menus_list as |hight_item|}}
+              {{#if (uppercase link.title) == (uppercase hight_item)}}
+                {{assign "is_highlight" true}}
+                {{break}}
+              {{/if}}
+            {{/for}}
+
+            <li
+              class="header-inline-menus__item
+                header-inline-menus__item--{{#if (length link.links) > 0}}has-submenu{{/if}}
+                {{#if is_megamenu or has_img}}is-megamenu{{/if}}"
+              {{#if (length link.links) > 0}}
+                data-item-title="{{link.title}}"
+              {{/if}}
+            >
+              {{#if (length link.links) > 0}}
+                
+                <a
+                  class="header-inline-menus__link menus__link body4 fw-bold
+                    {{#if is_highlight}}menu-item--highlight{{/if}}"
+                  {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                >
+                  {{link.title}}
+                </a>
+                {{#if is_megamenu or has_img}}
+                  <div class="header__inline-submenus header-nav-list">
+                    {{snippet
+                      "header-megamenu"
+                      links=link.links
+                      has_img=has_img
+                      menu_block=menu_block
+                      show_img1=show_img1
+                      show_img2=show_img2
+                      show_img3=show_img3
+                      body_pc_second_font_bold=section.settings.body_pc_second_font_bold
+                      body_pc_second_font_size=section.settings.body_pc_second_font_size
+                      body_pc_thirdly_font_size=section.settings.body_pc_thirdly_font_size
+                    }}
+                    {{#if has_img}}
+                      {{#if has_left_img}}
+                        
+                        <div class="header__images header__images--front">
+                          {{snippet
+                            "header-image"
+                            menu_block=menu_block
+                            show_img1=show_img1
+                            show_img2=show_img2
+                            show_img3=show_img3
+                            type="left"
+                          }}
+                        </div>
+                      {{/if}}
+                      {{#if has_right_img}}
+                        <div class="header__images header__images--behind">
+                          {{snippet
+                            "header-image"
+                            menu_block=menu_block
+                            show_img1=show_img1
+                            show_img2=show_img2
+                            show_img3=show_img3
+                            type="right"
+                          }}
+                        </div>
+                      {{/if}}
+                    {{/if}}
+                  </div>
+                {{else}}
+                  <ul class="header-dropdown-menu list-unstyled">
+                    {{#for link.links as |link|}}
+                      <li class="header-inline-submenus__item">
+                        <a
+                          class="header-inline-submenus__link menus__link
+                            {{section.settings.body_pc_second_font_size}}
+                            {{#if section.settings.body_pc_second_font_bold}}fw-bold{{/if}}"
+                          {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                        >{{link.title}}</a>
+                      </li>
+                    {{/for}}
+                  </ul>
+                {{/if}}
+              {{else}}
+                <a
+                  class="header-inline-menus__link menus__link body4 fw-bold
+                    {{#if is_highlight}}menu-item--highlight{{/if}}"
+                  {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                >
+                  {{link.title}}
+                </a>
+              {{/if}}
+            </li>
+          {{/for}}
+        </ul>
+        {{#if second_menu_link_list}}
+          <ul class="header__inline-menus list-unstyled header__inline-menus--second_menu">
+            {{#for second_menu_link_list.links as |link|}}
+              <li class="header-inline-menus__item">
+                <a
+                  class="header-inline-menus__link menus__link body4"
+                  {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                >
+                  {{link.title}}
+                </a>
+              </li>
+            {{/for}}
+          </ul>
+        {{/if}}
+      </nav>
+    </div>
+    
+    {{#if is_show_top_menu}}
+      <slider-component>
+        <div class="mobile-top-nav color-scheme-{{section.settings.color_scheme}}">
+          <div class="swiper-container mobile-site-nav__swiper">
+            <ul id="Slider-{{section.id}}" class="mobile-site-nav slider">
+              {{#for mobile_top_menu.links as |link|}}
+                <li class="mobile-site-nav__item slider__slide" id="Slide-{{forloop.index0}}">
+                  <a
+                    data-node-id="{{link.id}}"
+                    class="mobile-site-nav__item__link
+                      {{#if link.current}}mobile-site-nav__item__link--active{{/if}}
+                      body3"
+                    {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+                  >
+                    <span class="mobile-site-nav__item__link__text">{{link.title}}</span>
+                  </a>
+                </li>
+              {{/for}}
+            </ul>
+          </div>
+        </div>
+      </slider-component>
+    {{/if}}
+    
+  </header>
+</header-layout>
+
+{{#if settings.cart_type == "notification" and template.name != "cart"}}
+  {{snippet "cart-notification"}}
+{{/if}}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": "{{ shop.name }}",
+    {{#if settings.logo}}
+      "logo": "{{ settings.logo.src }}",
+    {{/if}}
+    "sameAs": [
+      "{{ settings.social_twitter_link }}",
+      "{{ settings.social_facebook_link }}",
+      "{{ settings.social_pinterest_link }}",
+      "{{ settings.social_instagram_link }}",
+      "{{ settings.social_tiktok_link }}",
+      "{{ settings.social_linkedin_link }}",
+      "{{ settings.social_snapchat_link }}",
+      "{{ settings.social_whatsapp_link }}",
+      "{{ settings.social_line_link }}",
+      "{{ settings.social_kakao_link }}",
+      "{{ settings.social_youtube_link }}",
+      "{{ settings.social_vimeo_link }}",
+      "{{ settings.social_tumblr_link }}"
+    ],
+    "url": "{{ request.origin }}"
+  }
+</script>
+
+{{#schema}}
+{
+  "name": "t:sections.header.name",
+  "settings": [
+    {
+      "id": "full_width",
+      "type": "switch",
+      "label": "t:sections.header.settings.full_width.label",
+      "default": true
+    },
+    {
+      "id": "header_division_bottom",
+      "type": "switch",
+      "label": "t:sections.header.settings.header_division_bottom.label",
+      "default": false
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.header.settings.group_header__0.label"
+    },
+    {
+      "type": "switch",
+      "id": "show_search_mobile",
+      "label": "t:sections.header.settings.show_search_mobile.label",
+      "default": true
+    },
+    {
+      "type": "menu_picker",
+      "id": "search_menu",
+      "label": "t:sections.header.settings.search_menu.label",
+      "info": "t:sections.header.settings.search_menu.info"
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.header.settings.group_header__1.label"
+    },
+    {
+      "type": "switch",
+      "id": "show_icon",
+      "label": "t:sections.header.settings.show_icon.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:sections.header.settings.icon.label",
+      "default": "logistics",
+      "options": [
+        {
+          "label": "t:sections.header.settings.icon.options__0.label",
+          "value": "none"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__1.label",
+          "value": "pay"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__2.label",
+          "value": "package"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__3.label",
+          "value": "email"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__4.label",
+          "value": "position"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__5.label",
+          "value": "customer"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__6.label",
+          "value": "chat"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__7.label",
+          "value": "gift"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__8.label",
+          "value": "phone"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__9.label",
+          "value": "faq"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__10.label",
+          "value": "logistics"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__11.label",
+          "value": "discount"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__12.label",
+          "value": "medal"
+        },
+        {
+          "label": "t:sections.header.settings.icon.options__13.label",
+          "value": "environment"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "t:sections.header.settings.icon_image.label",
+      "info": "t:sections.header.settings.icon_image.info"
+    },
+    {
+      "type": "text",
+      "id": "icon_title",
+      "default": "Free shipping",
+      "label": "t:sections.header.settings.icon_title.label"
+    },
+    {
+      "type": "text",
+      "id": "icon_sub_title",
+      "default": "Capped at $50.",
+      "label": "t:sections.header.settings.icon_sub_title.label"
+    },
+    {
+      "type": "url",
+      "id": "icon_link",
+      "label": "t:sections.header.settings.icon_link.label"
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.header.settings.group_header__2.label",
+      "info": "t:sections.header.settings.group_header__2.info"
+    },
+    {
+      "type": "switch",
+      "id": "show_tool",
+      "label": "t:sections.header.settings.show_tool.label",
+      "default": false
+    },
+    {
+      "type": "switch",
+      "id": "show_tool_full",
+      "label": "t:sections.header.settings.show_tool_full.label",
+      "default": false
+    },
+    {
+      "type": "switch",
+      "id": "show_locale_selector",
+      "label": "t:sections.header.settings.show_locale_selector.label",
+      "info": "t:sections.header.settings.show_locale_selector.info",
+      "default": false
+    },
+    {
+      "type": "switch",
+      "id": "show_country_selector",
+      "label": "t:sections.header.settings.show_country_selector.label",
+      "info": "t:sections.header.settings.show_country_selector.info",
+      "default": false
+    },
+    {
+      "type": "switch",
+      "id": "toolbar_social",
+      "label": "t:sections.header.settings.toolbar_social.label",
+      "info": "t:sections.header.settings.toolbar_social.info",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "toolbar_bacground_color",
+      "label": "t:sections.header.settings.toolbar_bacground_color.label",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "toolbar_link_color",
+      "label": "t:sections.header.settings.toolbar_link_color.label",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "toolbar_link_hover_color",
+      "label": "t:sections.header.settings.toolbar_link_hover_color.label",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "menu_picker",
+      "id": "toolbar_menu",
+      "label": "t:sections.header.settings.toolbar_menu.label",
+      "default": "",
+      "info": "t:sections.header.settings.toolbar_menu.info"
+    },
+    {
+      "type": "switch",
+      "id": "toolbar_menu_mobile",
+      "label": "t:sections.header.settings.toolbar_menu_mobile.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "toolbar_menu_position",
+      "label": "t:sections.header.settings.toolbar_menu_position.label",
+      "default": "bottom",
+      "options": [
+        {
+          "label": "t:sections.header.settings.toolbar_menu_position.options__0.label",
+          "value": "top"
+        },
+        {
+          "label": "t:sections.header.settings.toolbar_menu_position.options__1.label",
+          "value": "bottom"
+        }
+      ]
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.header.settings.group_header__3.label"
+    },
+    {
+      "type": "menu_picker",
+      "id": "main_menu_link_list",
+      "label": "t:sections.header.settings.main_menu_link_list.label",
+      "default": "main-menu"
+    },
+    {
+      "type": "menu_picker",
+      "id": "second_menu_link_list",
+      "label": "t:sections.header.settings.second_menu_link_list.label",
+      "info": "t:sections.header.settings.second_menu_link_list.info",
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "body_pc_second_font_size",
+      "label": "t:sections.header.settings.body_pc_second_font_size.label",
+      "default": "body3",
+      "options": [
+        {
+          "value": "body2",
+          "label": "t:sections.header.settings.body_pc_second_font_size.options__0.label"
+        },
+        {
+          "value": "body3",
+          "label": "t:sections.header.settings.body_pc_second_font_size.options__1.label"
+        },
+        {
+          "value": "body4",
+          "label": "t:sections.header.settings.body_pc_second_font_size.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "switch",
+      "id": "body_pc_second_font_bold",
+      "label": "t:sections.header.settings.body_pc_second_font_bold.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "body_pc_thirdly_font_size",
+      "label": "t:sections.header.settings.body_pc_thirdly_font_size.label",
+      "default": "body4",
+      "options": [
+        {
+          "value": "body3",
+          "label": "t:sections.header.settings.body_pc_thirdly_font_size.options__0.label"
+        },
+        {
+          "value": "body4",
+          "label": "t:sections.header.settings.body_pc_thirdly_font_size.options__1.label"
+        },
+        {
+          "value": "body5",
+          "label": "t:sections.header.settings.body_pc_thirdly_font_size.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "menu_picker",
+      "id": "mobile_top_menu",
+      "label": "t:sections.header.settings.mobile_top_menu.label",
+      "info": "t:sections.header.settings.mobile_top_menu.info",
+      "default": ""
+    },
+    {
+      "type": "switch",
+      "id": "mobile_top_menu_show_home",
+      "label": "t:sections.header.settings.mobile_top_menu_show_home.label",
+      "info": "t:sections.header.settings.mobile_top_menu_show_home.info",
+      "default": false
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.header.settings.group_header__4.label",
+      "info": "t:sections.header.settings.group_header__4.info"
+    },
+    {
+      "type": "switch",
+      "id": "enable_highlight",
+      "label": "t:sections.header.settings.enable_highlight.label",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "highlight_menus",
+      "label": "t:sections.header.settings.highlight_menus.label",
+      "info": "t:sections.header.settings.highlight_menus.info",
+      "default": ""
+    },
+    {
+      "type": "color",
+      "id": "highlight_text_color",
+      "label": "t:sections.header.settings.highlight_text_color.label",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "highlight_bg_color",
+      "label": "t:sections.header.settings.highlight_bg_color.label",
+      "default": "#122D47"
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.header.settings.group_header__5.label"
+    },
+    {
+      "type": "color",
+      "id": "header_background_color",
+      "label": "t:sections.header.settings.header_background_color.label",
+      "default": "#122D47"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "t:sections.header.settings.header_text_color.label",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "menu_background_color",
+      "label": "t:sections.header.settings.menu_background_color.label",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "menu_text_color",
+      "label": "t:sections.header.settings.menu_text_color.label",
+      "default": "#2C2924"
+    },
+    {
+      "type": "color",
+      "id": "search_color",
+      "label": "t:sections.header.settings.search_color.label",
+      "default": "#2C2924"
+    },
+    {
+      "type": "color",
+      "id": "search_bacground_color",
+      "label": "t:sections.header.settings.search_bacground_color.label",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "select",
+      "id": "user_mobile_layout",
+      "label": "t:sections.header.settings.user_mobile_layout.label",
+      "default": "menu",
+      "options": [
+        {
+          "value": "home",
+          "label": "t:sections.header.settings.user_mobile_layout.options__0.label"
+        },
+        {
+          "value": "menu",
+          "label": "t:sections.header.settings.user_mobile_layout.options__1.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "sticky_header_type",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.header.settings.sticky_header_type.options__0.label"
+        },
+        {
+          "value": "always",
+          "label": "t:sections.header.settings.sticky_header_type.options__1.label"
+        },
+        {
+          "value": "on-scroll-up",
+          "label": "t:sections.header.settings.sticky_header_type.options__2.label"
+        }
+      ],
+      "default": "always",
+      "label": "t:sections.header.settings.sticky_header_type.label"
+    },
+    {
+      "type": "switch",
+      "id": "show_user_entry",
+      "default": true,
+      "label": "t:sections.header.settings.show_user_entry.label"
+    },
+    {
+      "type": "switch",
+      "id": "show_cart_entry",
+      "default": true,
+      "label": "t:sections.header.settings.show_cart_entry.label"
+    },
+    {
+      "type": "select",
+      "id": "cart_icon",
+      "label": "t:sections.header.settings.cart_icon.label",
+      "default": "cart",
+      "options": [
+        {
+          "label": "t:sections.header.settings.cart_icon.options__0.label",
+          "value": "cart"
+        },
+        {
+          "label": "t:sections.header.settings.cart_icon.options__1.label",
+          "value": "shoppingBag"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "menuImage",
+      "name": "t:sections.header.blocks.menuImage.name",
+      "icon": "image",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_title",
+          "default": "",
+          "label": "t:sections.header.blocks.menuImage.settings.menu_title.label",
+          "info": "t:sections.header.blocks.menuImage.settings.menu_title.info"
+        },
+        {
+          "type": "group_header",
+          "label": "t:sections.header.blocks.menuImage.settings.group_header__0.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "t:sections.header.blocks.menuImage.settings.image_1.label"
+        },
+        {
+          "type": "text",
+          "id": "image_1_title",
+          "default": "Promotion heading",
+          "label": "t:sections.header.blocks.menuImage.settings.image_1_title.label"
+        },
+        {
+          "type": "text",
+          "id": "image_1_link_text",
+          "default": "Shop",
+          "label": "t:sections.header.blocks.menuImage.settings.image_1_link_text.label"
+        },
+        {
+          "type": "url",
+          "id": "image_1_link",
+          "label": "t:sections.header.blocks.menuImage.settings.image_1_link.label"
+        },
+        {
+          "type": "select",
+          "id": "image_1_position",
+          "label": "t:sections.header.blocks.menuImage.settings.image_1_position.label",
+          "default": "right",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.header.blocks.menuImage.settings.image_1_position.options__0.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.header.blocks.menuImage.settings.image_1_position.options__1.label"
+            }
+          ]
+        },
+        {
+          "type": "group_header",
+          "label": "t:sections.header.blocks.menuImage.settings.group_header__1.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "t:sections.header.blocks.menuImage.settings.image_2.label"
+        },
+        {
+          "type": "text",
+          "id": "image_2_title",
+          "default": "Promotion heading",
+          "label": "t:sections.header.blocks.menuImage.settings.image_2_title.label"
+        },
+        {
+          "type": "text",
+          "id": "image_2_link_text",
+          "default": "Shop",
+          "label": "t:sections.header.blocks.menuImage.settings.image_2_link_text.label"
+        },
+        {
+          "type": "url",
+          "id": "image_2_link",
+          "label": "t:sections.header.blocks.menuImage.settings.image_2_link.label"
+        },
+        {
+          "type": "select",
+          "id": "image_2_position",
+          "label": "t:sections.header.blocks.menuImage.settings.image_2_position.label",
+          "default": "right",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.header.blocks.menuImage.settings.image_2_position.options__0.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.header.blocks.menuImage.settings.image_2_position.options__1.label"
+            }
+          ]
+        },
+        {
+          "type": "group_header",
+          "label": "t:sections.header.blocks.menuImage.settings.group_header__2.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "t:sections.header.blocks.menuImage.settings.image_3.label"
+        },
+        {
+          "type": "text",
+          "id": "image_3_title",
+          "default": "Promotion heading",
+          "label": "t:sections.header.blocks.menuImage.settings.image_3_title.label"
+        },
+        {
+          "type": "text",
+          "id": "image_3_link_text",
+          "default": "Shop",
+          "label": "t:sections.header.blocks.menuImage.settings.image_3_link_text.label"
+        },
+        {
+          "type": "url",
+          "id": "image_3_link",
+          "label": "t:sections.header.blocks.menuImage.settings.image_3_link.label"
+        },
+        {
+          "type": "select",
+          "id": "image_3_position",
+          "label": "t:sections.header.blocks.menuImage.settings.image_3_position.label",
+          "default": "right",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.header.blocks.menuImage.settings.image_3_position.options__0.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.header.blocks.menuImage.settings.image_3_position.options__1.label"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{{/schema}}

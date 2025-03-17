@@ -1,0 +1,181 @@
+.promotional-banner {
+  position: relative;
+  padding: 60px 100px;
+  color: rgba(var(--color-text));
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner {
+    padding: 20px;
+  }
+}
+
+.promotional-banner--card .promotional-banner__main {
+  --color-text: var(--ptb-front-card-text-color);
+  background-color: rgb(var(--ptb-front-card-background-color));
+  border-radius: var(--ptb-front-card-border-radius);
+  max-width: 90%;
+  padding: 30px;
+  color: rgba(var(--color-text));
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner--card .promotional-banner__main {
+    padding: 10px;
+    max-width: unset;
+  }
+}
+
+.promotional-banner__bg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: var(--ptb-background-color);
+}
+
+.promotional-banner__bg-img {
+  display: block;
+  width: var(--ptb-background-image-width);
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner__bg-img {
+    width: 100%;
+  }
+}
+
+.promotional-banner__main {
+  position: relative;
+  display: flex;
+  padding: 30px 0;
+  align-items: center;
+  margin: auto;
+}
+
+.promotional-banner__main--layout1 .promotional-banner__front-image {
+  margin-left: 20px;
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner__main--layout1 .promotional-banner__front-image {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+}
+
+.promotional-banner__main--layout2 {
+  flex-direction: row-reverse;
+}
+
+.promotional-banner__main--layout2 .promotional-banner__front-image {
+  margin-right: 20px;
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner__main--layout2 .promotional-banner__front-image {
+    margin-right: 0px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner__main {
+    flex-direction: column;
+    padding: 10px;
+    align-items: unset;
+  }
+}
+
+.promotional-banner__content {
+  flex: 1 0 0;
+  text-align: var(--ptb-text-align, "center");
+}
+
+.promotional-banner__sub-title {
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  letter-spacing: 0.3em;
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner__sub-title {
+    margin-bottom: 4px;
+  }
+}
+
+.promotional-banner__title {
+  margin-bottom: 0;
+}
+
+.promotional-banner__desc {
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner__desc {
+    margin-top: 2px;
+  }
+}
+
+.promotional-banner__desc a {
+  padding: 0 1px;
+  position: relative;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.promotional-banner__btn {
+  margin-top: 24px;
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner__btn {
+    margin-top: 12px;
+  }
+}
+
+.promotional-banner__front-image {
+  width: var(--ptb-front-image-width, 40%);
+  height: auto;
+  max-height: 600px;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 959px) {
+  .promotional-banner__front-image {
+    width: 100%;
+  }
+}
+
+.promotional-banner__front-image.placeholder {
+  position: relative;
+  background-color: rgb(var(--color-image-background));
+  min-height: 300px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.promotional-banner__front-image.placeholder > svg {
+  display: block;
+  height: 100%;
+  max-height: 800px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* The ipad end responds to the mobile end in vertical screen */
+
+/* @custom-media --tablet (max-width: 959px); */
+
+/* @custom-media --gt-mobile (min-width: 751px); */
+
+/* detectingScreen need to consider the configuration of the tablet */

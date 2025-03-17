@@ -1,0 +1,74 @@
+{{#comment}}
+  Renders a product media gallery. Should be used with 'media-gallery/index.js'
+  Also see 'product-media-modal'
+
+  Accepts:
+  - section: {Object}
+  - product_list: {Array}
+  - limit: {Number}
+  - id {String}
+  - class {String}
+  - show_mobile_slider {Boolean}
+  - show_desktop_slider {Boolean}
+  - settings {Object}
+  - image_shape {'square'|'round'}
+
+  Usage:
+  {{snippet 'featured-collection-slider' id=section.id section=section product_list=list}}
+{{/comment}}
+
+<slider-component
+  class="slider-mobile-gutter
+    {{#if section.settings.full_in_mobile}} slider-mobile--full{{/if}}
+    {{#if section.settings.full_width}}slider-component-full-width{{else}}page-width{{/if}}
+    {{class}}
+    {{#if show_desktop_slider}} slider-component-desktop{{/if}}"
+  controller-previous="#previous-{{id}}"
+  controller-next="#next-{{id}}"
+>
+  <ul
+    id="Slider-{{section.id}}"
+    class="grid product-grid contains-product-card-slider
+      grid-cols-{{section.settings.columns_desktop}}-desktop
+      grid-cols-{{section.settings.columns_mobile}}-tablet
+      {{#if section.settings.full_in_mobile}} slider-full-screen slider--full{{/if}}
+      {{#if show_mobile_slider or show_desktop_slider}}
+        slider slider-full-screen
+        {{#if show_desktop_slider}}slider--desktop{{/if}}
+        {{#if show_mobile_slider}}slider--mobile grid--peek{{/if}}
+      {{/if}}
+      "
+  >
+    {{#if product_list.length > 0}}
+      {{#for product_list limit=limit as |product|}}
+        <li
+          id="Slide-{{section.id}}-featured-collection"
+          class="animation-delay-show-container
+            grid__item{{#if show_mobile_slider or show_desktop_slider}} slider__slide{{/if}}
+            come-into-view"
+        >
+          {{snippet
+            "product-card"
+            product_data=product
+            show_secondary_image=section.settings.show_secondary_image
+            section_id=section.id
+            image_ratio=section.settings.product_image_ratio
+            image_fill_type=section.settings.image_fill_type
+            desktop_grid_cols=section.settings.columns_desktop
+            mobile_grid_cols=section.settings.columns_mobile
+            theme_settings=settings
+            blocks=section.blocks
+            image_shape=image_shape
+          }}
+        </li>
+      {{/for}}
+    {{else}}
+      {{assign "mock_array" (split "1,2,3,4,5" ",")}}
+      {{#for mock_array}}
+        <li class="grid__item animation-delay-show-container">
+          {{snippet "product-card" theme_settings=settings blocks=section.blocks}}
+        </li>
+      {{/for}}
+    {{/if}}
+  </ul>
+</slider-component>

@@ -1,0 +1,10 @@
+<div id="cart-icon-bubble-wrapper">
+  {{#if type == "cart"}}
+    {{snippet "icon-cart"}}
+  {{else}}
+    {{snippet "icon-shopping-bag"}}
+  {{/if}}
+  {{#if cart.item_count > 0}}
+    <span class="header__cart-point body6">{{cart.item_count}}</span>
+  {{/if}}
+</div>

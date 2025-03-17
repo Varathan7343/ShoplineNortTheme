@@ -1,0 +1,49 @@
+{{assign "hide_variants" (default section.settings.hide_variants false)}}
+
+{{assign "default_selected_variant" (default section.settings.default_selected_variant true)}}
+{{assign "is_selected_variant" product.selected_variant}}
+
+{{assign "featured_variant" ""}}
+{{#if default_selected_variant or is_selected_variant}}
+  {{assign "featured_variant" product.selected_or_first_available_variant}}
+{{/if}}
+
+{{assign "single_media_visible_mobile" false}}
+
+{{#comment}}
+ Hide other variant image and only display the currently selected variant image
+{{/comment}}
+{{#if hide_variants and featured_variant and variant_images.length == product.media.length}}
+  {{assign "single_media_visible_mobile" true}}
+{{/if}}
+
+{{#if media_count == 0 or single_media_visible_mobile or product_mobile_thumbnail_image_hide == "show"}}
+  {{assign "hide_pagination" true}}
+{{/if}}
+
+{{assign "pagination_count" media_count}}
+{{#if product_mobile_thumbnail_image_hide == "columns"}}
+  {{assign "pagination_count" (minus media_count 1)}}
+{{/if}}
+
+{{#case product_mobile_image_switch_style}}
+  {{#when "number"}}
+    <div
+      class="slider-buttons product_mobile_thumbnail_pagination product-pagination__number
+        {{#if hide_pagination}} display-none-tablet{{/if}}
+        {{classes}}"
+    >
+      <button type="button" class="slider-button slider-button--prev" name="previous">
+        {{snippet "icon-arrow"}}
+      </button>
+      <div class="slider-counter caption">
+        <span class="slider-counter--current">1</span>
+        <span>/</span>
+        <span class="slider-counter--total">{{pagination_count}}</span>
+      </div>
+      <button type="button" class="slider-button slider-button--next" name="next">
+        {{snippet "icon-arrow"}}
+      </button>
+    </div>
+  {{/when}}
+{{/case}}

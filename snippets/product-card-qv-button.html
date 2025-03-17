@@ -1,0 +1,17 @@
+<div class="product-card-block-item display-none {{button_classes}}" {{{block.shopline_attributes}}}>
+  {{assign "product_form_id" (append "quick-add-" section_id "__" product_data.id)}}
+  <modal-opener data-modal="#QuickAdd-{{product_data.id}}">
+    <button
+      id="{{product_form_id}}-text-submit"
+      type="submit"
+      name="add"
+      class="button button--secondary button--full-width quick-add__text-button"
+      data-product-url="{{product_data.url}}"
+    >
+      <span class="loading-hidden">
+        Add to cart
+      </span>
+      {{snippet "loading-overlay-spinner"}}
+    </button>
+  </modal-opener>
+</div>

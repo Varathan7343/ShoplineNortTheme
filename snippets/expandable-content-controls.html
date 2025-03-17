@@ -1,0 +1,17 @@
+{{#comment}}
+  Render expandable content controls
+
+  Accepts:
+  - class: {String} Class attr.
+
+  Usage:
+    {{snippet "expandable-content-controls" class="accordion__footer"}}
+{{/comment}}
+
+<div class="expandable-content__controls {{class}}">
+  <div class="expandable-content__mask"></div>
+  <div class="expandable-content__buttons body3 fw-bold">
+    <span class="button--link button-more">see more</span>
+    <span class="button--link button-less">see less</span>
+  </div>
+</div>

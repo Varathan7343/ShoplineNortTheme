@@ -1,0 +1,115 @@
+picture-floating {
+  display: block;
+  position: relative;
+}
+
+.picture-floating__splide-container .picture-floating__title--split {
+  position: absolute;
+  z-index: 1;
+  top: -0.625em;
+  left: var(--picture-floating-left);
+}
+
+.picture-floating__splide-container .picture-floating__title {
+  line-height: 1;
+  font-family: var(--title-font);
+  font-style: var(--title-font-style);
+  font-weight: var(--title-font-weight);
+}
+
+.picture-floating__splide-container .picture-floating__title--small {
+  font-size: 96px;
+}
+
+@media (max-width: 959px) {
+  .picture-floating__splide-container .picture-floating__title--small {
+    font-size: 48px;
+  }
+}
+
+.picture-floating__splide-container .picture-floating__title--medium {
+  font-size: 128px;
+}
+
+@media (max-width: 959px) {
+  .picture-floating__splide-container .picture-floating__title--medium {
+    font-size: 64px;
+  }
+}
+
+.picture-floating__splide-container .picture-floating__title--large {
+  font-size: 160px;
+}
+
+@media (max-width: 959px) {
+  .picture-floating__splide-container .picture-floating__title--large {
+    font-size: 96px;
+  }
+}
+
+.picture-floating__splide-container .picture-floating__desc {
+  margin-top: 24px;
+}
+
+@media (max-width: 959px) {
+  .picture-floating__splide-container .picture-floating__desc {
+    margin-top: 12px;
+  }
+}
+
+.picture-floating__splide-container .picture-floating__desc a {
+  text-decoration: underline;
+}
+
+.picture-floating__splide-container .splide {
+  height: var(--picture-floating-height);
+}
+
+.picture-floating__splide-container .splide .splide__track {
+  height: 100%;
+}
+
+.picture-floating__splide-container .splide .splide__list {
+  height: 100%;
+}
+
+.picture-floating__splide-container .splide__slide-image > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.picture-floating__splide-container .splide__slide-image .placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(var(--color-image-background));
+}
+
+.picture-floating__splide-container .splide__slide-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (min-width: 960px) {
+  .picture-floating__splide-container .splide__list {
+    display: flex !important;
+  }
+  .picture-floating__splide-container .splide__list .splide__slide {
+    flex: 1;
+    will-change: flex;
+    transition: flex 1s cubic-bezier(0.29, 0, 0.2, 1);
+  }
+  .picture-floating__splide-container .splide__list .splide__slide.active {
+    flex: 5;
+  }
+}
+
+/* The ipad end responds to the mobile end in vertical screen */
+
+/* @custom-media --tablet (max-width: 959px); */
+
+/* @custom-media --gt-mobile (min-width: 751px); */
+
+/* detectingScreen need to consider the configuration of the tablet */

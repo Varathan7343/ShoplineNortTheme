@@ -1,0 +1,34 @@
+{{#comment}}
+    Renders a product photo swipe data source
+
+    Accepts:
+    - section: {Object} section object
+    - product: {Object} Product Handlebars object
+    - quality: {Number} Image compression ratio (optional) default 80.
+{{/comment}}
+
+<product-photo-swipe id="ProductPhotoSwipe-{{section.id}}">
+  {{#if product.selected_or_first_available_variant.featured_media}}
+    {{assign "media" product.selected_or_first_available_variant.featured_media}}
+    <img
+      class="display-none photo-swipe-image-source"
+      data-src="{{image_url media width=1800 quality=quality}}"
+      alt="{{media.alt}}"
+      width="{{default media.width media.preview_image.width}}"
+      height="{{default media.height media.preview_image.height}}"
+      data-media-id="{{media.id}}"
+    />
+  {{/if}}
+  {{#for product.media as |media|}}
+    {{#unless (if media.id == product.selected_or_first_available_variant.featured_media.id)}}
+      <img
+        class="display-none photo-swipe-image-source"
+        data-src="{{image_url media width=1800 quality=quality}}"
+        alt="{{media.alt}}"
+        width="{{default media.width media.preview_image.width}}"
+        height="{{default media.height media.preview_image.height}}"
+        data-media-id="{{media.id}}"
+      />
+    {{/unless}}
+  {{/for}}
+</product-photo-swipe>

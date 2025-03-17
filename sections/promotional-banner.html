@@ -1,0 +1,245 @@
+{{snippet "stylesheet" href=(asset_url "section-promotional-banner.css")}}
+
+<div
+  class="promotional-banner {{#if section.settings.front_card_mode}}promotional-banner--card{{/if}}"
+  style="
+    --ptb-background-image-width: {{section.settings.background_image_width}};
+    --ptb-background-color: {{section.settings.background_color}};
+    --ptb-front-image-width: {{section.settings.front_image_width}}%;
+    --ptb-front-card-border-radius: {{section.settings.front_card_border_radius}}px;
+    --ptb-front-card-background-color: {{section.settings.front_card_background_color.red}}, {{section.settings.front_card_background_color.green}}, {{section.settings.front_card_background_color.blue}};
+    --ptb-front-card-text-color: {{section.settings.front_card_text_color.red}}, {{section.settings.front_card_text_color.green}}, {{section.settings.front_card_text_color.blue}};
+    --ptb-text-align: {{section.settings.text_align}};
+    --color-text: {{section.settings.text_color.red}}, {{section.settings.text_color.green}}, {{section.settings.text_color.blue}};
+  "
+>
+  <div class="promotional-banner__bg">
+    {{#if section.settings.background_image}}
+      {{snippet "image" class="promotional-banner__bg-img" data=section.settings.background_image pc_size=section.settings.background_image_width}}
+    {{/if}}
+  </div>
+
+  <div class="promotional-banner__main promotional-banner__main--layout{{section.settings.front_layout}}">
+    <div class="promotional-banner__content">
+      {{#if section.settings.sub_title}}<h4 class="promotional-banner__sub-title body6">{{section.settings.sub_title}}</h4>{{/if}}
+      {{#if section.settings.title}}<h3 class="promotional-banner__title title3">{{section.settings.title}}</h3>{{/if}}
+      {{#if section.settings.description}}<p class="promotional-banner__desc body3">{{{section.settings.description}}}</p>{{/if}}
+      {{#if section.settings.btn_text}}
+        <a
+          class="button {{section.settings.button_style}} promotional-banner__btn"
+          title="{{section.settings.btn_text}}"
+          href="{{#if section.settings.btn_link}}{{section.settings.btn_link}}{{else}}javascript:;{{/if}}"
+        >{{section.settings.btn_text}}</a>
+      {{/if}}
+    </div>
+
+    {{#if section.settings.front_image}}
+      {{snippet "image" class="promotional-banner__front-image global-media-border-shadow" data=section.settings.front_image pc_size="36%"}}
+    {{else}}
+      <div class="promotional-banner__front-image placeholder global-media-border-shadow">
+        {{placeholder_svg_tag "image"}}
+      </div>
+    {{/if}}
+  </div>
+</div>
+
+{{#schema}}
+{
+  "name": "t:sections.promotional-banner.name",
+  "class": "section index-section--hero",
+  "settings": [
+    {
+      "id": "background_image",
+      "type": "image_picker",
+      "label": "t:sections.promotional-banner.settings.background_image.label"
+    },
+    {
+      "id": "background_image_width",
+      "type": "select",
+      "label": "t:sections.promotional-banner.settings.background_image_width.label",
+      "options": [
+        {
+          "label": "t:sections.promotional-banner.settings.background_image_width.options__0.label",
+          "value": "100%"
+        },
+        {
+          "label": "t:sections.promotional-banner.settings.background_image_width.options__1.label",
+          "value": "50%"
+        },
+        {
+          "label": "t:sections.promotional-banner.settings.background_image_width.options__2.label",
+          "value": "66.66%"
+        }
+      ],
+      "default": "50%"
+    },
+    {
+      "id": "background_color",
+      "type": "color",
+      "label": "t:sections.promotional-banner.settings.background_color.label",
+      "default": "#E0B09F"
+    },
+    {
+      "id": "front_image",
+      "type": "image_picker",
+      "label": "t:sections.promotional-banner.settings.front_image.label"
+    },
+    {
+      "id": "front_image_width",
+      "type": "range",
+      "label": "t:sections.promotional-banner.settings.front_image_width.label",
+      "min": 20,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "default": 60
+    },
+    {
+      "id": "front_layout",
+      "type": "select",
+      "label": "t:sections.promotional-banner.settings.front_layout.label",
+      "options": [
+        {
+          "label": "t:sections.promotional-banner.settings.front_layout.options__0.label",
+          "value": "1"
+        },
+        {
+          "label": "t:sections.promotional-banner.settings.front_layout.options__1.label",
+          "value": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "id": "front_card_mode",
+      "type": "switch",
+      "label": "t:sections.promotional-banner.settings.front_card_mode.label",
+      "default": false
+    },
+    {
+      "id": "front_card_border_radius",
+      "label": "t:sections.promotional-banner.settings.front_card_border_radius.label",
+      "type": "range",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "id": "front_card_background_color",
+      "type": "color",
+      "label": "t:sections.promotional-banner.settings.front_card_background_color.label",
+      "default": "#ffffff"
+    },
+    {
+      "id": "front_card_text_color",
+      "type": "color",
+      "label": "t:sections.promotional-banner.settings.front_card_text_color.label",
+      "default": "#000000"
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.promotional-banner.settings.group_header__0.label"
+    },
+    {
+      "id": "sub_title",
+      "type": "text",
+      "label": "t:sections.promotional-banner.settings.sub_title.label",
+      "default": "Improve"
+    },
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": "t:sections.promotional-banner.settings.title.label",
+      "default": "20% off select RINGHULT and KUNGSBACKA cabinet"
+    },
+    {
+      "id": "description",
+      "type": "richtext",
+      "label": "t:sections.promotional-banner.settings.description.label",
+      "default": "Make an image shoppable by adding hotspots that link to various products."
+    },
+    {
+      "id": "btn_text",
+      "type": "text",
+      "label": "t:sections.promotional-banner.settings.btn_text.label",
+      "default": "Button"
+    },
+    {
+      "id": "btn_link",
+      "type": "url",
+      "label": "t:sections.promotional-banner.settings.btn_link.label",
+      "placeholder": "输入链接或选择页面"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "t:sections.promotional-banner.settings.button_style.label",
+      "default": "button",
+      "options": [
+        {
+          "value": "button",
+          "label": "t:sections.promotional-banner.settings.button_style.options__0.label"
+        },
+        {
+          "value": "button--secondary",
+          "label": "t:sections.promotional-banner.settings.button_style.options__1.label"
+        },
+        {
+          "value": "button--link",
+          "label": "t:sections.promotional-banner.settings.button_style.options__2.label"
+        }
+      ]
+    },
+    {
+      "id": "text_align",
+      "type": "select",
+      "label": "t:sections.promotional-banner.settings.text_align.label",
+      "options": [
+        {
+          "label": "t:sections.promotional-banner.settings.text_align.options__0.label",
+          "value": "left"
+        },
+        {
+          "label": "t:sections.promotional-banner.settings.text_align.options__1.label",
+          "value": "center"
+        },
+        {
+          "label": "t:sections.promotional-banner.settings.text_align.options__2.label",
+          "value": "right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "id": "text_color",
+      "type": "color",
+      "label": "t:sections.promotional-banner.settings.text_color.label",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "category_index": 1,
+      "category": "t:sections.promotional-banner.presets.presets__0.category",
+      "name": "t:sections.promotional-banner.presets.presets__0.name",
+      "settings": {
+        "background_image_width": "50%",
+        "background_color": "#E0B09F",
+        "front_image_width": 60,
+        "front_layout": "1",
+        "front_card_mode": false,
+        "front_card_background_color": "#ffffff",
+        "front_card_text_color": "#000000",
+        "sub_title": "Improve",
+        "title": "20% off select RINGHULT and KUNGSBACKA cabinet",
+        "description": "Make an image shoppable by adding hotspots that link to various products.",
+        "btn_text": "Button",
+        "text_align": "left",
+        "text_color": "#ffffff"
+      }
+    }
+  ]
+}
+{{/schema}}

@@ -1,0 +1,658 @@
+{{snippet "stylesheet" href=(asset_url "component-dropdown-menu.css")}}
+{{snippet "stylesheet" href=(asset_url "section-footer.css")}}
+{{snippet "stylesheet" href=(asset_url "snippet-tips-card.css")}}
+<script src="{{asset_url 'component-localization-form.js'}}" defer></script>
+<script src="{{asset_url 'component-dropdown-menu.js'}}" defer></script>
+<script src="{{asset_url 'section-footer.js'}}" defer></script>
+
+{{assign "theme_settings" settings}}
+{{assign "settings" section.settings}}
+{{assign "show_block_len" (length section.blocks)}}
+
+{{#if request.design_mode}}
+  <script src="{{asset_url 'theme-editor.js'}}" defer="defer"></script>
+{{/if}}
+
+{{#style}}
+  .section-{{ section.id }}-padding {
+    margin-top: var(--section-vertical-gap);
+    padding-top: {{ settings.padding_top }}px;
+    padding-bottom: {{ settings.padding_bottom }}px;
+  }
+{{/style}}
+
+<footer class="footer section-{{section.id}}-padding color-scheme-{{settings.color_scheme}}">
+  <div class="footer__content-top page-width">
+    {{assign "footer_grid_class" (append "grid-cols-" show_block_len)}}
+    {{#if show_block_len > 4}}
+      {{assign "footer_grid_class" "grid-cols-4"}}
+    {{/if}}
+    <div class="footer__blocks-wrapper grid {{footer_grid_class}} grid-cols-1-tablet">
+      {{#for section.blocks as |block|}}
+        {{#if block.type == "menu"}}
+          <footer-menu
+            class="footer-block grid__item footer-block--list"
+            {{{block.shopline_attributes}}}
+            {{#if block.settings.default_fold}}open{{/if}}
+            style="width:{{block.settings.span}}%"
+          >
+            {{#if block.settings.title}}
+              <div class="footer-block__heading body3">
+                {{block.settings.title}}
+                {{snippet "icon-arrow"}}
+                {{snippet "icon-minus"}}
+              </div>
+            {{/if}}
+            {{assign "link" block.settings.menu}}
+            <ul class="footer-block__details-content list-unstyled">
+              {{#for link.links as |link|}}
+                <li class="body5">
+                  <a
+                    href="{{default link.url 'javascript:;'}}"
+                    class="link link--text list-menu__item list-menu__item--link
+                      {{#if link.active}}list-menu__item--active{{/if}}"
+                  >
+                    {{link.title}}
+                  </a>
+                </li>
+              {{/for}}
+            </ul>
+          </footer-menu>
+        {{/if}}
+
+        {{#if block.type == "custom"}}
+          <div class="footer-block grid__item" {{{block.shopline_attributes}}} style="width:{{block.settings.span}}%">
+            {{#if block.settings.title}}
+              <div class="footer-block__heading body3">{{block.settings.title}}</div>
+            {{/if}}
+            {{#if block.settings.content}}
+              <div class="footer-block__details-content rte body5">
+                {{{block.settings.content}}}
+              </div>
+            {{/if}}
+          </div>
+        {{/if}}
+
+        {{#if block.type == "image"}}
+          <div class="footer-block grid__item" {{{block.shopline_attributes}}} style="width:{{block.settings.span}}%">
+            {{#capture "img_style"}}width:{{block.settings.image_width}}px;height:{{block.settings.image_width}}px;{{/capture}}
+            {{#if block.settings.image}}
+              <div class="footer-block__details-content footer-block-image">
+                {{snippet "image" data=block.settings.image style=img_style}}
+              </div>
+            {{/if}}
+          </div>
+        {{/if}}
+
+        {{#if block.type == "newsletter"}}
+          <div class="footer-block grid__item" {{{block.shopline_attributes}}} style="width:{{block.settings.span}}%">
+            {{#if block.settings.title}}
+              <div class="footer-block__heading body3 rte fw-bold">{{{block.settings.title}}}</div>
+            {{/if}}
+
+            {{#if block.settings.desc}}
+              <div class="footer-block__desc body4 rte">{{{block.settings.desc}}}</div>
+            {{/if}}
+
+            {{#form "customer"}}
+              <div class="field footer-block__details-newsletter-form">
+                <div class="field__container">
+                  <input
+                    class="field__input"
+                    type="email"
+                    id="NewsletterForm"
+                    required
+                    name="contact[email]"
+                    placeholder="{{block.settings.subscribe_letter_placeholder}}"
+                  />
+                  <label for="NewsletterForm" class="field__label body3">
+                    {{block.settings.subscribe_letter_placeholder}}
+                  </label>
+                </div>
+                <div class="field__suffix">
+                  <button type="submit" class="button button--link newsletter-form__button">
+                    {{snippet "icon-mail"}}
+                  </button>
+                </div>
+              </div>
+              {{#if form.posted_successfully}}
+                {{snippet "tips-card" type="success" text=(t "general.footer.subscribe_success")}}
+              {{/if}}
+              {{#if form.errors.messages}}
+                {{snippet "tips-card" type="error" text=form.errors.messages}}
+              {{/if}}
+            {{/form}}
+          </div>
+        {{/if}}
+
+        {{#if block.type == "social_media"}}
+          <div class="footer-block grid__item" {{{block.shopline_attributes}}} style="width:{{block.settings.span}}%">
+            <div class="body3 fw-bold">
+              {{t "general.contact_us.contact_us"}}
+            </div>
+            {{#with theme_settings}}
+              <ul class="footer-block__social_media-container">
+                {{#if social_facebook_link}}
+                  <li>
+                    <a href="{{social_facebook_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-fb"}}
+                      {{else}}
+                        {{snippet "icon-social-fb"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_twitter_link}}
+                  <li>
+                    <a href="{{social_twitter_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-twitter"}}
+                      {{else}}
+                        {{snippet "icon-social-twitter"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_pinterest_link}}
+                  <li>
+                    <a href="{{social_pinterest_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-pin"}}
+                      {{else}}
+                        {{snippet "icon-social-pin"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_instagram_link}}
+                  <li>
+                    <a href="{{social_instagram_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-ig" id="page-footer"}}
+                      {{else}}
+                        {{snippet "icon-social-ig"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_snapchat_link}}
+                  <li>
+                    <a href="{{social_snapchat_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-snapchat"}}
+                      {{else}}
+                        {{snippet "icon-social-snapchat"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_tiktok_link}}
+                  <li>
+                    <a href="{{social_tiktok_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-tiktok"}}
+                      {{else}}
+                        {{snippet "icon-social-tiktok"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_youtube_link}}
+                  <li>
+                    <a href="{{social_youtube_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-youtube"}}
+                      {{else}}
+                        {{snippet "icon-social-youtube"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_vimeo_link}}
+                  <li>
+                    <a href="{{social_vimeo_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-vimeo"}}
+                      {{else}}
+                        {{snippet "icon-social-vimeo"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_tumblr_link}}
+                  <li>
+                    <a href="{{social_tumblr_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-tumblr"}}
+                      {{else}}
+                        {{snippet "icon-social-tumblr"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_linkedin_link}}
+                  <li>
+                    <a href="{{social_linkedin_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-linkedin"}}
+                      {{else}}
+                        {{snippet "icon-social-linkedin"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_whatsapp_link}}
+                  <li>
+                    <a href="{{social_whatsapp_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-whatsapp"}}
+                      {{else}}
+                        {{snippet "icon-social-whatsapp"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_line_link}}
+                  <li>
+                    <a href="{{social_line_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-line"}}
+                      {{else}}
+                        {{snippet "icon-social-line"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+                {{#if social_kakao_link}}
+                  <li>
+                    <a href="{{social_kakao_link}}" target="_blank">
+                      {{#if show_official_icon}}
+                        {{snippet "icon-official-kakao"}}
+                      {{else}}
+                        {{snippet "icon-social-kakao"}}
+                      {{/if}}
+                    </a>
+                  </li>
+                {{/if}}
+              </ul>
+            {{/with}}
+          </div>
+        {{/if}}
+      {{/for}}
+    </div>
+  </div>
+  <div class="footer__content-bottom">
+    <div class="footer__content-bottom-wrapper page-width">
+      <div class="footer__column footer__localization">
+        <localization-form>
+          {{#form "localization" id="localization-form" enctype="multipart/form-data" accept-charset="UTF-8"}}
+            {{#if settings.show_locale_selector and (gt (length localization.available_languages) 1)}}
+              <dropdown-menu>
+                <div class="dropdown-menu">
+                  <input type="hidden" name="locale_code" value="{{localization.language.iso_code}}" />
+                  <button class="button button--secondary dropdown-menu__button" type="button">
+                    <span data-label>{{localization.language.endonym_name}}</span>
+                    {{snippet "icon-arrow"}}
+                  </button>
+                  <div class="dropdown-menu__list-wrapper top global-modal-border-shadow body4" hidden>
+                    <ul class="dropdown-menu__list list-unstyled">
+                      {{#for localization.available_languages as |language|}}
+                        <li>
+                          <a href="javascript:;" data-value="{{language.iso_code}}">{{language.endonym_name}}</a>
+                        </li>
+                      {{/for}}
+                    </ul>
+                  </div>
+                </div>
+              </dropdown-menu>
+            {{/if}}
+            {{#if settings.show_country_selector and (gt (length localization.available_countries) 1)}}
+              <dropdown-menu>
+                <div class="dropdown-menu">
+                  <input type="hidden" name="country_code" value="{{localization.country.iso_code}}" />
+                  <button class="button button--secondary dropdown-menu__button" type="button">
+                    <span data-label>{{localization.country.name}}（{{localization.country.currency.iso_code}}
+                      {{localization.country.currency.symbol}}）</span>
+                    {{snippet "icon-arrow"}}
+                  </button>
+                  <div class="dropdown-menu__list-wrapper top global-modal-border-shadow body4" hidden>
+                    <ul class="dropdown-menu__list list-unstyled">
+                      {{#for localization.available_countries as |country|}}
+                        <li>
+                          <a href="javascript:;" data-value="{{country.iso_code}}">
+                            {{country.name}}（{{country.currency.iso_code}}
+                            {{country.currency.symbol}}）
+                          </a>
+                        </li>
+                      {{/for}}
+                    </ul>
+                  </div>
+                </div>
+              </dropdown-menu>
+            {{/if}}
+          {{/form}}
+        </localization-form>
+      </div>
+      <div class="footer__column footer__column--info">
+        {{#if settings.show_pay_channel.show}}
+          <div class="footer__payment">
+            {{#for settings.show_pay_channel.pay_channel_list as |pay_channel|}}
+              {{payment_type_svg_tag pay_channel.type}}
+            {{/for}}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__copyright body6">
+    {{#capture "storeName"}}
+      <a href="{{routes.root_url}}">{{shop.name}}</a>
+    {{/capture}}
+    <small class="copyright__content">{{{t
+        "general.footer.copyright"
+        year=(date "now" "%Y")
+        storeName=storeName
+      }}}</small>
+  </div>
+</footer>
+
+{{#schema}}
+{
+  "name": "t:sections.footer.name",
+  "max_blocks": 16,
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "1",
+      "label": "t:sections.footer.settings.color_scheme.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.footer.settings.color_scheme.options__0.label"
+        },
+        {
+          "value": "1",
+          "label": "t:sections.footer.settings.color_scheme.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.footer.settings.color_scheme.options__2.label"
+        },
+        {
+          "value": "3",
+          "label": "t:sections.footer.settings.color_scheme.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "choose_payment_icons",
+      "id": "show_pay_channel",
+      "label": "t:sections.footer.settings.show_pay_channel.label",
+      "default": false
+    },
+    {
+      "type": "switch",
+      "id": "show_country_selector",
+      "label": "t:sections.footer.settings.show_country_selector.label",
+      "info": "t:sections.footer.settings.show_country_selector.info",
+      "default": false
+    },
+    {
+      "type": "switch",
+      "id": "show_locale_selector",
+      "label": "t:sections.footer.settings.show_locale_selector.label",
+      "info": "t:sections.footer.settings.show_locale_selector.info",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.footer.settings.padding_top.label",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.footer.settings.padding_bottom.label",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "icon": "normal",
+      "name": "t:sections.footer.blocks.menu.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.footer.blocks.menu.settings.title.label"
+        },
+        {
+          "type": "menu_picker",
+          "id": "menu",
+          "label": "t:sections.footer.blocks.menu.settings.menu.label",
+          "default": "footer"
+        },
+        {
+          "type": "range",
+          "id": "span",
+          "label": "t:sections.footer.blocks.menu.settings.span.label",
+          "default": 20,
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "switch",
+          "id": "default_fold",
+          "label": "t:sections.footer.blocks.menu.settings.default_fold.label",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "custom",
+      "icon": "paragraph",
+      "name": "t:sections.footer.blocks.custom.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.footer.blocks.custom.settings.title.label",
+          "default": "Custom text"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:sections.footer.blocks.custom.settings.content.label",
+          "default": "Add your own custom text here."
+        },
+        {
+          "type": "range",
+          "id": "span",
+          "label": "t:sections.footer.blocks.custom.settings.span.label",
+          "default": 20,
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "icon": "image",
+      "name": "t:sections.footer.blocks.image.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.footer.blocks.image.settings.image.label"
+        },
+        {
+          "id": "image_width",
+          "type": "range",
+          "label": "t:sections.footer.blocks.image.settings.image_width.label",
+          "min": 50,
+          "max": 200,
+          "step": 10,
+          "unit": "px",
+          "default": 100
+        },
+        {
+          "type": "range",
+          "id": "span",
+          "label": "t:sections.footer.blocks.image.settings.span.label",
+          "default": 20,
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "icon": "email",
+      "name": "t:sections.footer.blocks.newsletter.name",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "t:sections.footer.blocks.newsletter.settings.title.label",
+          "default": "Subscribe"
+        },
+        {
+          "type": "richtext",
+          "id": "desc",
+          "label": "t:sections.footer.blocks.newsletter.settings.desc.label",
+          "default": "Subscribe today and get 10% off your first purchase"
+        },
+        {
+          "type": "text",
+          "id": "subscribe_letter_placeholder",
+          "label": "t:sections.footer.blocks.newsletter.settings.subscribe_letter_placeholder.label",
+          "default": "Enter your email"
+        },
+        {
+          "type": "range",
+          "id": "span",
+          "label": "t:sections.footer.blocks.newsletter.settings.span.label",
+          "default": 20,
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "type": "social_media",
+      "icon": "button",
+      "name": "t:sections.footer.blocks.social_media.name",
+      "settings": [
+        {
+          "type": "range",
+          "id": "span",
+          "label": "t:sections.footer.blocks.social_media.settings.span.label",
+          "default": 20,
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "menu",
+        "settings": {
+          "menu": "footer",
+          "default_fold": false,
+          "title": "Menu title"
+        }
+      },
+      {
+        "type": "custom",
+        "settings": {
+          "title": "Custom text",
+          "content": "Add your own custom text here."
+        }
+      },
+      {
+        "type": "image",
+        "settings": {
+          "image": {}
+        }
+      }
+    ],
+    "settings": {
+      "show_locale_selector": false,
+      "show_currency_selector": false,
+      "show_pay_channel": {
+        "show": false,
+        "pay_channel_list": [
+          {
+            "type": "visa",
+            "show": true
+          },
+          {
+            "type": "master-card",
+            "show": true
+          },
+          {
+            "type": "master-card2",
+            "show": true
+          },
+          {
+            "type": "visa-electron",
+            "show": true
+          },
+          {
+            "type": "jcb",
+            "show": true
+          },
+          {
+            "type": "american-express",
+            "show": true
+          },
+          {
+            "type": "diners-club",
+            "show": true
+          },
+          {
+            "type": "discover",
+            "show": true
+          },
+          {
+            "type": "paypal",
+            "show": true
+          },
+          {
+            "type": "union-pay",
+            "show": true
+          }
+        ]
+      },
+      "color_scheme": "1",
+      "padding_top": 40,
+      "padding_bottom": 40
+    }
+  }
+}
+{{/schema}}

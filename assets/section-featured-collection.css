@@ -1,0 +1,232 @@
+@media screen and (max-width: 959px) {
+  .featured-collection .grid__item:only-child {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 959px) {
+  .featured-collection .slider.slider--tablet {
+    margin-bottom: 15px;
+  }
+}
+
+@media screen and (max-width: 959px) {
+  .featured-collection .slider--tablet.product-grid {
+    scroll-padding-left: 15px;
+  }
+}
+
+.featured-collection__title-group {
+  margin-bottom: 10px;
+}
+
+.featured-collection__title {
+  text-align: center;
+}
+
+@media screen and (min-width: 960px) {
+  .featured-collection__title-group {
+    margin-bottom: 20px;
+  }
+}
+
+.featured-collection__title .title:not(:only-child) {
+  margin-bottom: 10px;
+}
+
+.featured-collection__title-group {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  justify-content: space-between;
+  min-height: 40px;
+}
+
+@media screen and (max-width: 959px) {
+  .featured-collection__title-group {
+    min-height: 24px;
+  }
+}
+
+.featured-collection__title-line {
+  display: inline-block;
+  width: 203px;
+  height: 1px;
+  background-color: rgb(var(--color-text));
+  margin-left: 24px;
+}
+
+@media screen and (max-width: 959px) {
+  .featured-collection__title-group {
+    padding-right: 0;
+  }
+
+  .featured-collection__title-line {
+    width: 101px;
+    margin-left: 12px;
+  }
+}
+
+.featured-collection__title--ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.featured-collection__tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.featured-collection__tabs-item {
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 959px) {
+  .featured-collection__tabs {
+    margin-bottom: 8px;
+  }
+
+  .featured-collection .slider__slide {
+    scroll-snap-align: end;
+  }
+}
+
+.featured-collection__buttons {
+  display: flex;
+  align-items: center;
+}
+
+.featured-collection__buttons > *:last-child {
+  margin-left: 16px;
+}
+
+.featured-collection .slider {
+  overflow-y: hidden;
+
+  /* To show the hover state of the button */
+  padding-bottom: 1px;
+}
+
+.featured-collection .slider-button {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  border: 1px solid rgba(var(--color-text), 0.1);
+  color: var(--color-text);
+}
+
+.featured-collection .slider-button[disabled] {
+  color: rgba(var(--color-text), 0.3);
+  cursor: not-allowed;
+}
+
+.featured-collection .slider-buttons .slider-button:last-child {
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 959px) {
+  .featured-collection .slider:not(.slider--mobile) {
+    flex-wrap: wrap;
+  }
+  .featured-collection .slider--mobile .slider__slide {
+    width: calc((200vw - var(--page-padding)) / (2 * var(--mobile-cols) + 1));
+  }
+
+  .featured-collection .slider-mobile--full {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .featured-collection .slider--full {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    scroll-padding-left: 0;
+    scroll-padding-right: 0;
+  }
+
+  .featured-collection .slider--full .slider__slide,
+  .featured-collection .slider--full .grid__item {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .featured-collection .slider--full.slider--mobile .slider__slide,
+  .featured-collection .slider--full.slider--mobile .grid__item {
+    width: calc((100% - (33.3% / var(--mobile-cols))) / var(--mobile-cols));
+    flex-grow: 1;
+  }
+  .featured-collection .slider--full .card .price,
+  .featured-collection .slider--full .card .product__title {
+    padding: 0 8%;
+  }
+
+  .featured-collection .slider--full .global-product-card-border-shadow,
+  .featured-collection .slider--full .card__media {
+    border-radius: 0 !important;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  .featured-collection .slider:not(.slider--desktop) {
+    flex-wrap: wrap;
+  }
+  .featured-collection .slider--mobile:not(.slider--desktop) + .slider-buttons {
+    display: none;
+  }
+  .featured-collection .slider--desktop {
+    scroll-padding-left: var(--page-padding);
+  }
+}
+
+/* fix:safari svg  */
+
+.featured-collection .product-card-wrapper .placeholder svg {
+  width: 100%;
+}
+
+.featured-collection__spin {
+  position: relative;
+  height: 350px;
+  width: 100%;
+  display: none;
+}
+
+[data-loading="true"] .featured-collection__spin {
+  display: block;
+}
+
+[data-loading="true"] .featured-collection__spin .loading-overlay__spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -20px;
+  margin-top: -20px;
+  display: flex;
+  animation: rotate linear 1.5s infinite;
+}
+
+[data-loading="true"]
+  .featured-collection__spin
+  .loading-overlay__spinner
+  .icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* The ipad end responds to the mobile end in vertical screen */
+
+/* @custom-media --tablet (max-width: 959px); */
+
+/* @custom-media --gt-mobile (min-width: 751px); */
+
+/* detectingScreen need to consider the configuration of the tablet */

@@ -1,0 +1,123 @@
+.combine-shoppable-image__title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.combine-shoppable-image__title-container-right {
+  display: flex;
+  align-items: center;
+}
+.combine-shoppable-image__arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  border: 1px solid rgba(var(--color-entry-line));
+  background: rgba(var(--color-page-background));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.combine-shoppable-image__arrow svg {
+  width: 14px;
+  height: 14px;
+}
+.combine-shoppable-image__arrow-disible {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.combine-shoppable-image__arrow-last {
+  margin-left: 16px;
+  transform: rotate(90deg);
+}
+.combine-shoppable-image__arrow-next {
+  margin-left: 10px;
+  transform: rotate(-90deg);
+}
+.combine-shoppable-image__desc {
+  max-width: 1280px;
+  color: var(--color-light-text, #686868);
+}
+.combine-shoppable-image__image-list-container ul {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--grid-horizontal-space);
+  padding-left: 0;
+  margin: 0;
+  margin-top: 24px;
+}
+@media (max-width: 959px) {
+  .combine-shoppable-image__image-list-container ul {
+    margin-top: 8px;
+  }
+}
+.combine-shoppable-image__image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: rgb(var(--color-image-background));
+  width: 100%;
+  height: 100%;
+}
+.combine-shoppable-image__image-wrapper img {
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.combine-shoppable-image__image-wrapper .placeholder_svg {
+  width: auto;
+  height: 80% !important;
+  object-fit: cover;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.combine-shoppable-image__image-wrapper-columns__1 {
+  width: 100%;
+}
+.combine-shoppable-image__image-wrapper-columns__2 {
+  width: calc(50% - var(--grid-horizontal-space) / 2);
+}
+.combine-shoppable-image__image-wrapper-columns__3 {
+  width: calc(33.3% - var(--grid-horizontal-space) / 1.5);
+}
+@media (max-width: 959px) {
+  .combine-shoppable-image__image-wrapper-item {
+    width: 324px;
+  }
+
+  .combine-shoppable-image__image-list-container {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  .combine-shoppable-image__image-list-container ul {
+    gap: 0;
+  }
+  .combine-shoppable-image__image-list-container li {
+    padding-left: calc(var(--grid-horizontal-space) * 0.5);
+    width: calc(86vw + var(--grid-horizontal-space) * 0.5);
+  }
+
+  .combine-shoppable-image__image-list-container li:first-of-type {
+    padding-left: 20px;
+    width: calc(86vw + 20px);
+  }
+  .combine-shoppable-image__image-list-container li:last-of-type {
+    margin-right: 20px;
+  }
+}
+
+/* The ipad end responds to the mobile end in vertical screen */
+
+/* @custom-media --tablet (max-width: 959px); */
+
+/* @custom-media --gt-mobile (min-width: 751px); */
+
+/* detectingScreen need to consider the configuration of the tablet */

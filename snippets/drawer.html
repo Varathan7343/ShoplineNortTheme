@@ -1,0 +1,50 @@
+{{#comment}}
+  Render drawer dialog
+
+  Accepts:
+  - class: {String} Class attr.
+  - style: {String} Style attr.
+  - show_head_divider: {Boolean} Whether the title and content are separated by a divide line.
+  - position: {'left'|'right'} Entry direction of drawer dialog.
+  - custom_element: {String} Customize drawer tag.
+
+  Child:
+  - default: Drawer main content.
+  - trigger: Drawer open trigger.
+  - title: Drawer title
+
+  Usage:
+  {{#snippet 'drawer' class='test-drawer' style='color: red;' position='right'}}
+    {{#child 'trigger'}}
+      <button>click me</button>
+    {{/child}}
+
+    {{#child 'title'}}
+      i a title
+    {{/child}}
+
+    {{#child}}
+      this is content
+    {{/child}}
+  {{/snippet}}
+{{/comment}}
+
+<{{ default custom_element 'details-modal' }} class="drawer {{ class }}">
+  <details>
+    <summary class="modal__toggle">
+      {{ slot_content 'trigger' }}
+    </summary>
+    <div class="modal__content global-drawer-border-shadow" data-position="{{ default position 'left' }}">
+      <div class="modal__overlay"></div>
+      <div class="drawer__head {{#if show_head_divider}}drawer__head--divider{{/if}}">
+        <h5 class="drawer__title">{{ slot_content 'title' }}</h5>
+        <button class="drawer__close-button icon-button" name="close">
+          {{snippet 'icon-close'}}
+        </button>
+      </div>
+      <div class="drawer__main">
+        {{ slot_content }}
+      </div>
+    </div>
+  </details>
+</{{ default custom_element 'details-modal' }}>

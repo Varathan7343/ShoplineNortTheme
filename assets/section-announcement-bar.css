@@ -1,0 +1,106 @@
+.shopline-section-announcement-bar-sticky {
+  top: 0;
+  z-index: 20;
+  animation: modalSlideInTop 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+@media (min-width: 960px) {
+  .shopline-section-announcement-bar-sticky.sticky-pc {
+    position: sticky;
+  }
+}
+@media (max-width: 959px) {
+  .shopline-section-announcement-bar-sticky.sticky-mobile {
+    position: sticky;
+  }
+}
+.shopline-section-announcement-bar-sticky.sticky-always {
+  position: sticky;
+}
+#shopline-section-announcement-bar:not(
+    .shopline-section-announcement-bar-sticky
+  ) {
+  position: relative;
+  z-index: 20;
+}
+.announcement-bar--list {
+  text-align: center;
+  display: flex;
+}
+.announcement-bar--list:not(.splide__list) {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+@media (min-width: 960px) {
+  announcement-bar-slider .announcement-bar--list {
+    display: flex;
+    flex-direction: row;
+  }
+}
+.announcement-bar--item {
+  --color-text: var(--notice-text-color);
+  width: 100vw;
+  background-color: var(--notice-bg-color);
+  flex-shrink: 0;
+  padding-left: var(--page-padding);
+  padding-right: var(--page-padding);
+  position: relative;
+}
+@media (min-width: 960px) {
+  .announcement-bar--item.social-media--show {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+  }
+}
+.announcement-bar--item.division_bottom:after {
+  background-color: rgba(var(--color-entry-line));
+  bottom: 0;
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+.announcement--text {
+  color: rgb(var(--notice-text-color));
+  display: inline-block;
+  font-weight: 700;
+  position: relative;
+}
+.announcement--text .announcement__link {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.announcement-social-media {
+  height: 100%;
+  min-width: 180px;
+}
+.announcement-social-media.announcement-social-media--placeholder {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+.announcement-social-media .social-media {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  padding: 8px 0;
+}
+.announcement-social-media .social-media a {
+  display: flex;
+}
+.announcement-social-media .social-media svg {
+  width: 16px;
+  height: 16px;
+}
+/* The ipad end responds to the mobile end in vertical screen */
+/* @custom-media --tablet (max-width: 959px); */
+/* @custom-media --gt-mobile (min-width: 751px); */
+/* detectingScreen need to consider the configuration of the tablet */

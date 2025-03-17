@@ -1,0 +1,169 @@
+.promotional-image-title {
+  margin-bottom: 20px;
+}
+
+.promo-image {
+  display: grid;
+  gap: var(--grid-horizontal-space);
+}
+
+@media screen and (max-width: 959px) {
+  .promo-image {
+    display: block;
+  }
+}
+
+.promo-image.promo-image--grid-1 {
+  grid-template-areas: "item0";
+}
+
+.promo-image.promo-image--grid-2 {
+  grid-template-areas: "item0 item1";
+}
+
+.promo-image.promo-image--grid-3 {
+  grid-template-areas: "item0 item1 item2";
+}
+
+.promo-image.promo-image--grid-4 {
+  grid-template-areas:
+    "item0 item1"
+    "item2 item3";
+}
+
+.promo-image.promo-image--grid-5 {
+  grid-template-areas:
+    "item0 item0 item1 item1 item2 item2"
+    "item3 item3 item3 item4 item4 item4";
+}
+
+.promo-image.promo-image--grid-6 {
+  grid-template-areas:
+    "item0 item1 item2"
+    "item3 item4 item5";
+}
+
+.promo-image .promo-item-0 {
+  grid-area: item0;
+}
+
+.promo-image .promo-item-1 {
+  grid-area: item1;
+}
+
+.promo-image .promo-item-2 {
+  grid-area: item2;
+}
+
+.promo-image .promo-item-3 {
+  grid-area: item3;
+}
+
+.promo-image .promo-item-4 {
+  grid-area: item4;
+}
+
+.promo-image .promo-item-5 {
+  grid-area: item5;
+}
+
+.promo-image .promo-item {
+  background-color: rgb(var(--color-image-background));
+  position: relative;
+  padding-bottom: 50%;
+}
+
+@media screen and (max-width: 959px) {
+  .promo-image .promo-item {
+    margin-bottom: var(--grid-mobile-horizontal-space);
+  }
+  .promo-image .promo-item:last-child {
+    margin-bottom: 0px;
+  }
+}
+
+.promo-image .promo-item .promo-item__background {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.promo-image .promo-item .promo-item__background svg {
+  width: 100%;
+  height: 100%;
+}
+
+.promo-image .promo-item .promo-item__background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.promo-image .promo-item.promo-item--layout-right .promo-item__content {
+  left: unset;
+  right: 0px;
+  border-radius: var(--pi-text-border-radius) 0 0 var(--pi-text-border-radius);
+}
+
+.promo-image .promo-item .promo-item__content {
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40%;
+  max-height: 100%;
+  overflow: hidden;
+
+  padding: 30px 20px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 var(--pi-text-border-radius) var(--pi-text-border-radius) 0;
+  color: rgb(var(--pi-text-color));
+}
+
+.promo-image .promo-item .promo-item__content.promo-item__content--background {
+  background-color: rgb(var(--pi-text-background-color));
+}
+
+.promo-image .promo-item .promo-item__content .promo-item__text {
+  overflow: hidden;
+}
+
+.promo-image .promo-item .promo-item__content .promo-item__icon {
+  height: 54px;
+}
+
+.promo-image .promo-item .promo-item__content .promo-item__icon svg {
+  width: 54px;
+  height: 100%;
+}
+
+.promo-image .promo-item .promo-item__content .promo-item__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.promo-image .promo-item .promo-item__link {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The ipad end responds to the mobile end in vertical screen */
+
+/* @custom-media --tablet (max-width: 959px); */
+
+/* @custom-media --gt-mobile (min-width: 751px); */
+
+/* detectingScreen need to consider the configuration of the tablet */

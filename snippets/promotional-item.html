@@ -1,0 +1,35 @@
+{{assign "icon_valid" (if block.settings.icon != "none")}}
+
+<div
+  class="promo-item promo-item-{{index}} promo-item--layout-{{block.settings.text_position}} global-media-border-shadow" {{{block.shopline_attributes}}}
+>
+  <div class="promo-item__background">
+    {{#if block.settings.image}}
+      {{snippet "image" data=block.settings.image}}
+    {{else}}
+      {{placeholder_svg_tag "image" "placeholder"}}
+    {{/if}}
+  </div>
+  {{#if block.settings.text or icon_valid or block.settings.custom_icon}}
+    <div
+      class="promo-item__content {{#if block.settings.show_text_background}}promo-item__content--background{{/if}}"
+      style="--pi-text-background-color: {{#if block.settings.text_background_color != 'rgba(0,0,0,0)'}}{{block.settings.text_background_color.red}},{{block.settings.text_background_color.green}},{{block.settings.text_background_color.blue}}{{else}}var(--color-page-background){{/if}};
+      --pi-text-color: {{#if block.settings.text_color != 'rgba(0,0,0,0)'}}{{block.settings.text_color.red}},{{block.settings.text_color.green}},{{block.settings.text_color.blue}}{{else}}var(--color-text){{/if}};
+      --pi-text-border-radius: {{block.settings.text_border_radius}}px;"
+    >
+      <div class="promo-item__text title5">{{{block.settings.text}}}</div>
+      {{#if block.settings.custom_icon or icon_valid}}
+        <div class="promo-item__icon">
+          {{#if block.settings.custom_icon}}
+            {{snippet "image" data=block.settings.custom_icon}}
+          {{else if icon_valid}}
+            {{snippet "icon-switch" icon=block.settings.icon}}
+          {{/if}}
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+  {{#if block.settings.link}}
+    <a class="promo-item__link" href="{{block.settings.link}}"></a>
+  {{/if}}
+</div>

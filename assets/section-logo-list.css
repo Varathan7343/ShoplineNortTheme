@@ -1,0 +1,125 @@
+.logo-list {
+  position: relative;
+  background: var(--background-color);
+}
+.logo-list > div {
+  overflow: hidden;
+}
+
+.logo-list__item {
+  padding: 20px;
+}
+
+.logo-list__item.style-card {
+  background-color: #ffffff;
+}
+
+.logo-list__item__logo-wrapper {
+  width: 48px;
+  height: 48px;
+}
+
+.logo-list__item__logo-wrapper img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.logo-list__item__text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-list__item__title,
+.logo-list__item__subtitle {
+  color: var(--font-color);
+}
+
+.logo-list.layout-vertical .logo-list__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.logo-list.layout-vertical .logo-list__item__title,
+.logo-list.layout-vertical .logo-list__item__subtitle {
+  text-align: center;
+}
+
+.logo-list.layout-horizontal .logo-list__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-list.layout-horizontal .logo-list__item .logo-list__item__text-wrapper {
+  align-items: flex-start;
+}
+
+.logo-list.layout-horizontal .logo-list__item__title,
+.logo-list.layout-horizontal .logo-list__item__subtitle {
+  text-align: left;
+}
+
+.logo-list__item-wrapper {
+  display: flex;
+}
+
+.logo-list__item-wrapper > .logo-list__item {
+  flex: 1;
+}
+
+@media (max-width: 959px) {
+  .logo-list.layout-vertical .logo-list__item {
+    padding: 15px;
+  }
+  .logo-list.layout-vertical .logo-list__scroll-wrapper.mobile-display-grid {
+    padding: 30px 20px;
+  }
+  .logo-list.layout-horizontal
+    .logo-list__scroll-wrapper.mobile-display-grid
+    .logo-list__item {
+    padding: 20px;
+  }
+
+  .logo-list.layout-horizontal .logo-list__scroll-wrapper.mobile-display-grid {
+    padding: 30px 20px;
+  }
+
+  .logo-list__scroll-wrapper.mobile-display-scroll {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 15px 20px;
+    margin-left: calc(var(--page-padding) * -1);
+    margin-right: calc(var(--page-padding) * -1);
+  }
+  .logo-list__scroll-wrapper.mobile-display-scroll::after {
+    content: "";
+    width: 100px;
+    height: 100%;
+    background: linear-gradient(-90deg, var(--background-color), transparent);
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+  }
+
+  .logo-list__scroll-wrapper.mobile-display-scroll .logo-list__item-wrapper {
+    width: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: flex;
+  }
+}
+
+/* The ipad end responds to the mobile end in vertical screen */
+
+/* @custom-media --tablet (max-width: 959px); */
+
+/* @custom-media --gt-mobile (min-width: 751px); */
+
+/* detectingScreen need to consider the configuration of the tablet */

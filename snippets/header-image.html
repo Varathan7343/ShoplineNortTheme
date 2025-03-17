@@ -1,0 +1,75 @@
+{{#if show_img1}}
+  {{assign "img_click" (if menu_block.settings.image_1_link and (isFalsey menu_block.settings.image_1_link_text))}}
+  {{assign "element_link" (ternary img_click "a" "div")}}
+  <{{element_link}}
+    class="header__image {{ternary (if menu_block.settings.image_1_position == type) '' 'header__image--hidden'}}"
+    {{#if img_click}}
+      href="{{menu_block.settings.image_1_link}}"
+    {{/if}}
+  >
+    <div style="overflow:hidden">
+      {{snippet "image" data=show_img1}}
+    </div>
+    <div class="header__image-body">
+      <div class="header__image_title body3">{{menu_block.settings.image_1_title}}</div>
+      {{#if menu_block.settings.image_1_link_text}}
+        {{snippet
+          "link"
+          classes="header-inline-menus__link"
+          href=menu_block.settings.image_1_link
+          text=menu_block.settings.image_1_link_text
+        }}
+      {{/if}}
+    </div>
+  </{{element_link}}>
+{{/if}}
+{{#if show_img2}}
+  {{assign "img_click" (if menu_block.settings.image_2_link and (isFalsey menu_block.settings.image_2_link_text))}}
+  {{assign "element_link" (ternary img_click "a" "div")}}
+  <{{element_link}}
+    class="header__image {{ternary (if menu_block.settings.image_2_position == type) '' 'header__image--hidden'}}"
+    {{#if img_click}}
+      href="{{menu_block.settings.image_2_link}}"
+    {{/if}}
+  >
+    <div style="overflow:hidden">
+      {{snippet "image" data=show_img2}}
+    </div>
+    <div class="header__image-body">
+      <div class="header__image_title body3">{{menu_block.settings.image_2_title}}</div>
+      {{#if menu_block.settings.image_2_link_text}}
+        {{snippet
+          "link"
+          classes="header-inline-menus__link"
+          href=menu_block.settings.image_2_link
+          text=menu_block.settings.image_2_link_text
+        }}
+      {{/if}}
+    </div>
+  </{{element_link}}>
+{{/if}}
+{{#if show_img3}}
+  {{assign "img_click" (if menu_block.settings.image_3_link and (isFalsey menu_block.settings.image_3_link_text))}}
+  {{assign "element_link" (ternary img_click "a" "div")}}
+  <{{element_link}}
+    class="header__image {{ternary (if menu_block.settings.image_3_position == type) '' 'header__image--hidden'}}"
+    {{#if img_click}}
+      href="{{menu_block.settings.image_3_link}}"
+    {{/if}}
+  >
+    <div style="overflow:hidden">
+      {{snippet "image" data=show_img3}}
+    </div>
+    <div class="header__image-body">
+      <div class="header__image_title body3">{{menu_block.settings.image_3_title}}</div>
+      {{#if menu_block.settings.image_3_link_text}}
+        {{snippet
+          "link"
+          classes="header-inline-menus__link"
+          href=menu_block.settings.image_3_link
+          text=menu_block.settings.image_3_link_text
+        }}
+      {{/if}}
+    </div>
+  </{{element_link}}>
+{{/if}}

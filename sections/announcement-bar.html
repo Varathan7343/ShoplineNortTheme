@@ -1,0 +1,200 @@
+{{assign "show_announcement" false}}
+
+{{#for section.blocks as |block|}}
+  {{#if (trim block.settings.notice_link_text)}} {{assign "show_announcement" true}} {{/if}}
+{{/for}}
+
+{{assign "should_display_with_slider" section.settings.enable_autoplay}}
+
+{{snippet "stylesheet" href=(asset_url "section-announcement-bar.css")}}
+
+{{#if show_announcement and section.settings.enable_sticky}}
+  <script src="{{asset_url 'section-announcement-bar-sticky-top.js'}}" defer></script>
+{{/if}}
+{{#if should_display_with_slider}}
+  {{snippet "stylesheet" href=(asset_url "lib-splide.min.css")}}
+  <script src="{{asset_url 'lib-splide.min.js'}}" defer></script>
+  <script src="{{asset_url 'section-announcement-bar-slider.js'}}" defer></script>
+{{/if}}
+
+{{#if request.design_mode}}
+  <script src="{{asset_url 'theme-editor.js'}}" defer="defer"></script>
+{{/if}}
+
+{{snippet
+  "section-padding-creator"
+  section_id=section.id
+  padding_top=section.settings.padding_top
+  padding_bottom=section.settings.padding_bottom
+}}
+
+{{#if show_announcement}}
+  {{#if should_display_with_slider}}<announcement-bar-slider data-speed="{{section.settings.autoplay_speed}}">{{/if}}
+  {{#if section.settings.enable_sticky}}<announcement-bar-sticky-top
+      data-sticky-mode="{{section.settings.sticky_mode}}"
+    >{{/if}}
+  <div class="announcement-bar--container {{#if should_display_with_slider}}splide{{/if}}">
+    {{#if should_display_with_slider}}<div class="splide__track">{{/if}}
+    <div class="announcement-bar--list {{#if should_display_with_slider}}splide__list{{/if}}">
+      {{#for section.blocks as |block|}}
+        {{~#if (isTruthy block.settings.notice_link_text)}}
+          <div
+            class="announcement-bar--item section-padding
+              {{#if should_display_with_slider}}splide__slide{{/if}}
+              {{#if block.settings.announcement_division_bottom}}division_bottom{{/if}}
+              {{#if section.settings.show_social_media}}social-media--show{{/if}}"
+            style="--notice-text-color: {{block.settings.notice_text_color.red}}, {{block.settings.notice_text_color.green}}, {{block.settings.notice_text_color.blue}}; --notice-bg-color: {{block.settings.notice_bg_color}};"
+            {{{block.shopline_attributes}}}
+          >
+            {{#if section.settings.show_social_media}}
+              <div class="announcement-social-media display-none-tablet">
+                {{snippet "social-media" settings=settings}}
+              </div>
+            {{/if}}
+            <div class="body4 announcement--text">
+              {{#if block.settings.notice_link}}
+                <a class="announcement__link" href="{{block.settings.notice_link}}"></a>
+              {{/if}}
+              <div class="rte">
+                <div class="display-none-tablet">{{{block.settings.notice_link_text}}}</div>
+                <div class="display-none-desktop">
+                  {{{default block.settings.notice_link_mb_text block.settings.notice_link_text}}}
+                </div>
+              </div>
+            </div>
+            {{#if section.settings.show_social_media}}
+              <div class="announcement-social-media announcement-social-media--placeholder display-none-tablet">
+                {{snippet "social-media" settings=settings}}
+              </div>
+            {{/if}}
+          </div>
+        {{~/if}}
+      {{/for}}
+    </div>
+    {{#if should_display_with_slider}}</div>{{/if}}
+  </div>
+  {{#if section.settings.enable_sticky}}</announcement-bar-sticky-top>{{/if}}
+  {{#if should_display_with_slider}}</announcement-bar-slider>{{/if}}
+{{/if}}
+
+{{#schema}}
+{
+  "name": "t:sections.announcement-bar.name",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "switch",
+      "id": "enable_sticky",
+      "default": false,
+      "label": "t:sections.announcement-bar.settings.enable_sticky.label"
+    },
+    {
+      "id": "sticky_mode",
+      "type": "select",
+      "label": "t:sections.announcement-bar.settings.sticky_mode.label",
+      "default": "always",
+      "options": [
+        {
+          "value": "always",
+          "label": "t:sections.announcement-bar.settings.sticky_mode.options__0.label"
+        },
+        {
+          "value": "pc",
+          "label": "t:sections.announcement-bar.settings.sticky_mode.options__1.label"
+        },
+        {
+          "value": "mobile",
+          "label": "t:sections.announcement-bar.settings.sticky_mode.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "switch",
+      "id": "enable_autoplay",
+      "default": true,
+      "label": "t:sections.announcement-bar.settings.enable_autoplay.label"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "default": 5,
+      "max": 10,
+      "min": 3,
+      "step": 1,
+      "label": "t:sections.announcement-bar.settings.autoplay_speed.label",
+      "unit": "s"
+    },
+    {
+      "type": "switch",
+      "id": "show_social_media",
+      "label": "t:sections.announcement-bar.settings.show_social_media.label",
+      "default": false,
+      "info": "t:sections.announcement-bar.settings.show_social_media.info"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.announcement-bar.settings.padding_top.label",
+      "default": 10,
+      "max": 36,
+      "min": 2,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.announcement-bar.settings.padding_bottom.label",
+      "default": 10,
+      "max": 36,
+      "min": 2,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "icon": "normal",
+      "name": "t:sections.announcement-bar.blocks.item.name",
+      "settings": [
+        {
+          "id": "notice_link_text",
+          "type": "richtext",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_link_text.label",
+          "default": "30-day postage paid returns"
+        },
+        {
+          "id": "notice_link_mb_text",
+          "type": "richtext",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_link_mb_text.label",
+          "info": "t:sections.announcement-bar.blocks.item.settings.notice_link_mb_text.info"
+        },
+        {
+          "type": "url",
+          "id": "notice_link",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_link.label"
+        },
+        {
+          "id": "announcement_division_bottom",
+          "type": "switch",
+          "label": "t:sections.announcement-bar.blocks.item.settings.announcement_division_bottom.label",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "notice_text_color",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_text_color.label",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "notice_bg_color",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_bg_color.label",
+          "default": "#000000"
+        }
+      ]
+    }
+  ]
+}
+{{/schema}}

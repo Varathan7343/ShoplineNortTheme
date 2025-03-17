@@ -1,0 +1,234 @@
+{{snippet
+  "section-padding-creator"
+  section_id=section.id
+  padding_top=section.settings.padding_top
+  padding_bottom=section.settings.padding_bottom
+}}
+
+{{snippet "stylesheet" href=(asset_url "section-promotional-image.css")}}
+
+<div class="page-width section-padding">
+  {{#if section.settings.title}}
+    <h2 class="title5 promotional-image-title">{{section.settings.title}}</h2>
+  {{/if}}
+  <div class="promo-image promo-image--grid-{{section.blocks.length}}">
+    {{#for section.blocks as |block|}}
+      {{snippet "promotional-item" block=block index=forloop.index0}}
+    {{/for}}
+  </div>
+</div>
+
+{{#schema}}
+{
+  "name": "t:sections.promotional-image.name",
+  "icon": "image",
+  "class": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "label": "t:sections.promotional-image.settings.title.label",
+      "id": "title",
+      "type": "text"
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.promotional-image.settings.group_header__0.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.promotional-image.settings.padding_top.label",
+      "default": 60,
+      "max": 100,
+      "min": 0,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.promotional-image.settings.padding_bottom.label",
+      "default": 60,
+      "max": 100,
+      "min": 0,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "t:sections.promotional-image.blocks.image.name",
+      "type": "image",
+      "icon": "image",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.promotional-image.blocks.image.settings.image.label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.promotional-image.blocks.image.settings.link.label"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:sections.promotional-image.blocks.image.settings.text.label",
+          "default": "50% off",
+          "limit": 500
+        },
+        {
+          "id": "show_text_background",
+          "label": "t:sections.promotional-image.blocks.image.settings.show_text_background.label",
+          "type": "switch",
+          "default": true
+        },
+        {
+          "id": "text_border_radius",
+          "label": "t:sections.promotional-image.blocks.image.settings.text_border_radius.label",
+          "type": "range",
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "id": "text_background_color",
+          "label": "t:sections.promotional-image.blocks.image.settings.text_background_color.label",
+          "type": "color",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "id": "text_color",
+          "label": "t:sections.promotional-image.blocks.image.settings.text_color.label",
+          "type": "color",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "id": "text_position",
+          "type": "select",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.promotional-image.blocks.image.settings.text_position.options__0.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.promotional-image.blocks.image.settings.text_position.options__1.label"
+            }
+          ],
+          "default": "left",
+          "label": "t:sections.promotional-image.blocks.image.settings.text_position.label"
+        },
+        {
+          "id": "icon",
+          "type": "select",
+          "options": [
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__0.label",
+              "value": "none"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__1.label",
+              "value": "pay"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__2.label",
+              "value": "package"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__3.label",
+              "value": "email"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__4.label",
+              "value": "position"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__5.label",
+              "value": "customer"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__6.label",
+              "value": "chat"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__7.label",
+              "value": "gift"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__8.label",
+              "value": "phone"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__9.label",
+              "value": "faq"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__10.label",
+              "value": "logistics"
+            },
+            {
+              "label": "t:sections.promotional-image.blocks.image.settings.icon.options__11.label",
+              "value": "discount"
+            }
+          ],
+          "default": "none",
+          "label": "t:sections.promotional-image.blocks.image.settings.icon.label"
+        },
+        {
+          "id": "custom_icon",
+          "type": "image_picker",
+          "label": "t:sections.promotional-image.blocks.image.settings.custom_icon.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category_index": 1,
+      "category": "t:sections.promotional-image.presets.presets__0.category",
+      "name": "t:sections.promotional-image.presets.presets__0.name",
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60
+      },
+      "blocks": [
+        {
+          "type": "image",
+          "icon": "image",
+          "settings": {
+            "text": "50% off",
+            "text_position": "left",
+            "show_text_background": true,
+            "icon": "none"
+          }
+        },
+        {
+          "type": "image",
+          "icon": "image",
+          "settings": {
+            "text": "50% off",
+            "text_position": "left",
+            "show_text_background": true,
+            "icon": "none"
+          }
+        },
+        {
+          "type": "image",
+          "icon": "image",
+          "settings": {
+            "text": "50% off",
+            "text_position": "left",
+            "show_text_background": true,
+            "icon": "none"
+          }
+        }
+      ]
+    }
+  ]
+}
+{{/schema}}

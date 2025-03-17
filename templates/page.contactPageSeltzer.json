@@ -1,0 +1,129 @@
+{
+    "sections": {
+        "main": {
+            "disabled": true,
+            "type": "main-page",
+            "settings": {},
+            "blocks": {}
+        },
+        "1741174302944bf2645a": {
+            "disabled": false,
+            "type": "shopline://apps/高阶组件库/sections/featured-carousel/01405986-ae6f-4fcc-adaa-2a21f14efc9f",
+            "settings": {
+                "pc_image_height": "450",
+                "mb_image_height": "300",
+                "autoplay": false,
+                "scroll_parallax": false,
+                "pagination_type": "simple",
+                "transition_effect": "dynamic_switch",
+                "mobile_pagination_type": "touch",
+                "autoplay_speed": 7,
+                "container_margin_config": {
+                    "pc": {
+                        "left": 0,
+                        "right": 0,
+                        "top": 0,
+                        "bottom": 0
+                    },
+                    "mobile": {
+                        "left": 0,
+                        "right": 0,
+                        "top": 0,
+                        "bottom": 0
+                    }
+                }
+            },
+            "blocks": {
+                "174117430294766eeae8": {
+                    "type": "image",
+                    "icon": "image",
+                    "settings": {
+                        "pc_image_area": "center",
+                        "mb_image_area": "center",
+                        "pc_sub_title": "Contact Us",
+                        "pc_title": "Book your free consult, and your free follow up appointment",
+                        "pc_body": "Our scheduling coordinator will contact you within 1 business day to schedule you. If you have any questions, please call our office at (215) 659-3770",
+                        "pc_text_position": "center",
+                        "pc_mask": "10",
+                        "mb_sub_title": "",
+                        "mb_title": "",
+                        "mb_body": "",
+                        "mb_text_position": "left",
+                        "mb_mask": "10",
+                        "button_text1": "",
+                        "jump_link1": "",
+                        "button_text2": "",
+                        "jump_link2": "",
+                        "title_font_family": "Poppins:600",
+                        "title_font_color": "#ffffff",
+                        "title_pc_font_size": 31,
+                        "title_m_font_size": 36,
+                        "title_letter_spacing": 25,
+                        "title_line_height": 1.2,
+                        "body_font_family": "Montserrat:400",
+                        "body_font_color": "#ffffff",
+                        "body_pc_font_size": 17,
+                        "body_m_font_size": 14,
+                        "body_letter_spacing": 0,
+                        "body_line_height": 1.6,
+                        "sub_title_font_family": "Montserrat:400",
+                        "sub_title_font_color": "#ffffff",
+                        "sub_title_pc_font_size": 31,
+                        "sub_title_m_font_size": 14,
+                        "sub_title_letter_spacing": 150,
+                        "sub_title_line_height": 1.6,
+                        "btn_font_family": "Montserrat:500",
+                        "btn_font_color1": "#1c1d1d",
+                        "btn_font_color2": "#1c1d1d",
+                        "btn_pc_font_size": 13,
+                        "btn_m_font_size": 12,
+                        "btn_letter_spacing": 0,
+                        "btn_line_height": 1.6,
+                        "btn_background1": "#ffffff",
+                        "btn_background2": "#ffffff",
+                        "btn_style1": "primary",
+                        "btn_style2": "primary",
+                        "btn_hover_animation": "1",
+                        "btn_border_thickness": 1,
+                        "btn_border_opacity": 100,
+                        "btn_border_radius": 0,
+                        "btn_border_color1": "#ffffff",
+                        "btn_border_color2": "#ffffff",
+                        "btn_shadow_opacity": 0,
+                        "btn_shadow_offset_x": 0,
+                        "btn_shadow_offset_y": 4,
+                        "btn_shadow_blur": 5,
+                        "btn_shadow_color": "#000000",
+                        "pc_image": "shopline://shop_images/iron-mountain-static.jpg",
+                        "mb_image": "shopline://shop_images/iron-mountain-static.jpg"
+                    },
+                    "blockId": "174117430294766eeae8"
+                }
+            },
+            "block_order": [
+                "174117430294766eeae8"
+            ],
+            "custom_css": []
+        },
+        "17411745877200754454": {
+            "disabled": false,
+            "type": "contactUsSeltzerBoys",
+            "settings": {
+                "html": "<style>\n  .contact-container {\n    max-width: 95% !important;\n    margin: auto;\n    padding: 40px 20px;\n    font-family: poppins;\n    text-align: left;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n\n  .contact-text {\n    font-size: 26px;\n    font-weight: 430;\n    font-family:poppins;\n  }\n\n  .contact-text strong {\n    font-weight: 700;\n    font-size: 26px;\n    font-family:poppins;\n  }\n\n  .contact-button {\n    background: #f79e1b;\n    color: #1e2d33;\n    text-decoration: none !important;\n    padding: 10px 15px;\n    font-size: 16px;\n    font-weight: 400;\n    border-radius: 5px;\n    display: inline-block;\n  }\n\n  .map-container {\n    max-width: 1000px;\n    margin: auto;\n    margin-top: 20px;\n  }\n\n  .map-container iframe {\n    width: 100%;\n    height: 400px;\n    border: none;\n    border-radius: 10px;\n  }\n\n  @media (max-width: 768px) {\n    .contact-container {\n      flex-direction: column;\n      text-align: center;\n    }\n    \n    .contact-button {\n      margin-top: 15px;\n    }\n  }\n</style>\n\n<div class=\"contact-container\">\n  <p class=\"contact-text\">Call our office: <strong>(215) 659-3770</strong></p>\n  <a href=\"https://ironmountain.myshopline.com/pages/messageuscontactform?isPreview=1\" class=\"contact-button\">Message Us</a>\n</div>\n\n<div class=\"map-container\">\n  <iframe\n    src=\"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1261.3461401927398!2d-75.1377734!3d40.1719746!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6af0d96f1ca99%3A0x80a1dfff38db03b3!2sIron%20Mountain%20Men&#39;s%20Health!5e1!3m2!1sen!2sus!4v1741642561719!5m2!1sen!2sus\" width=\"600\" height=\"450\" style=\"border:0;\"\n    allowfullscreen\n    loading=\"lazy\">\n  </iframe>\n</div>\n",
+                "color_scheme": "1",
+                "padding_top": 32,
+                "padding_bottom": 100
+            },
+            "blocks": {},
+            "block_order": [],
+            "custom_css": [
+                "a {padding: 9px 15px; position: relative; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;}"
+            ]
+        }
+    },
+    "order": [
+        "main",
+        "1741174302944bf2645a",
+        "17411745877200754454"
+    ]
+}

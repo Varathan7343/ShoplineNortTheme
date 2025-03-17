@@ -1,0 +1,481 @@
+{{snippet "stylesheet" href=(asset_url "section-combine-shoppable-image.css")}}
+{{snippet "stylesheet" href=(asset_url "section-shoppable-image.css")}}
+{{snippet "stylesheet" href=(asset_url "component-price.css")}}
+<script src="{{asset_url 'component-slider.js'}}" defer></script>
+<script src="{{asset_url 'section-shoppable-image.js'}}" defer></script>
+<script src="{{asset_url 'section-combine-shoppable-image.js'}}" defer></script>
+
+{{#if section.settings.anchor_quick_view}}
+  {{snippet "stylesheet" href=(asset_url "component-quick-add.css") lazy=true}}
+  <script src="{{asset_url 'component-quick-add.js'}}" defer="defer"></script>
+{{/if}}
+
+{{#if request.design_mode}}
+  <script src="{{asset_url 'theme-editor.js'}}" defer="defer"></script>
+{{/if}}
+
+{{snippet
+  "section-padding-creator"
+  section_id=section.id
+  padding_top=section.settings.padding_top
+  padding_bottom=section.settings.padding_bottom
+}}
+{{assign "block_len" (length section.blocks)}}
+
+<combine-shoppable-image 
+  data-block_len="{{block_len}}" 
+  data-pc_cols="{{section.settings.show_columns}}" 
+  style="--color__hotspot: {{settings.color_page_background.red}}, {{settings.color_page_background.green}}, {{settings.color_page_background.blue}};"
+>
+  <div class="section section-padding page-width">
+    <div class="combine-shoppable-image__title-container">
+      <h5>{{section.settings.text_title}}</h5>
+      <div class="combine-shoppable-image__title-container-right">
+        {{assign "ele" (ternary (if section.settings.jump_link) "a" "span")}}
+        <{{ele}}
+          {{#if section.settings.jump_link}}href="{{section.settings.jump_link}}"{{/if}}
+          class="button--link body2 fw-bold"
+        >
+          {{section.settings.button_text}}
+        </{{ele}}>
+        {{#if (length section.blocks) > section.settings.show_columns}}
+          <div class="combine-shoppable-image__arrow combine-shoppable-image__arrow-last display-none-tablet">{{snippet
+              "icon-arrow"
+            }}</div>
+          <div class="combine-shoppable-image__arrow combine-shoppable-image__arrow-next display-none-tablet">{{snippet
+              "icon-arrow"
+            }}</div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="body3 combine-shoppable-image__desc rte">{{{section.settings.description}}}</div>
+
+    
+    <div class="combine-shoppable-image__image-list-container">
+      <slider-component direction="horizontal">
+        <ul id="Slider-combine-shoppable-image" class="slider">
+          {{#for section.blocks as |block|}}
+            <li
+              {{{block.shopline_attributes}}}
+              id="Slide-combine-shoppable-image{{add forloop.index0 1}}"
+              class="slider__slide combine-shoppable-image__image-wrapper-item
+                combine-shoppable-image__image-wrapper-columns__{{section.settings.show_columns}}"
+              {{#if block_len == 1}}style="width:100%"{{/if}}
+            >
+
+              {{assign "show_type" section.settings.anchor_show_type}}
+              {{assign "enable_quick_view" section.settings.anchor_quick_view}}
+
+              <shoppable-image
+                class="shoppable-image {{#if section.settings.image_full}}full_width{{/if}}"
+                data-show-type="{{show_type}}"
+              >
+                <div
+                  class="combine-shoppable-image__image-wrapper"
+                  style="padding-bottom: {{section.settings.image_ratio}}"
+                >
+                  {{#if block.settings.image}}
+                    {{snippet "image" data=block.settings.image pc_size="100%"}}
+                  {{else}}
+                    {{placeholder_svg_tag "lifestyle-1" "placeholder_svg"}}
+                  {{/if}}
+
+                  
+                  {{#if block.settings.product1}}
+                    <div>
+                      {{snippet
+                        "shoppable-image__hotspot"
+                        type="product"
+                        product=block.settings.product1
+                        block=block
+                        horizontal_axis_position=block.settings.horizontal_axis_position1
+                        vertical_axis_position=block.settings.vertical_axis_position1
+                        button_text=block.settings.product_butotn_text
+                        show_type=show_type
+                        enable_quick_view=enable_quick_view
+                      }}
+                    </div>
+                  {{/if}}
+
+                  
+                  {{#if block.settings.product2}}
+                    <div>
+                      {{snippet
+                        "shoppable-image__hotspot"
+                        type="product"
+                        product=block.settings.product2
+                        block=block
+                        horizontal_axis_position=block.settings.horizontal_axis_position2
+                        vertical_axis_position=block.settings.vertical_axis_position2
+                        button_text=block.settings.product_butotn_text
+                        show_type=show_type
+                        enable_quick_view=enable_quick_view
+                      }}
+                    </div>
+                  {{/if}}
+
+                  
+                  {{#if block.settings.product3}}
+                    <div>
+                      {{snippet
+                        "shoppable-image__hotspot"
+                        type="product"
+                        product=block.settings.product3
+                        block=block
+                        horizontal_axis_position=block.settings.horizontal_axis_position3
+                        vertical_axis_position=block.settings.vertical_axis_position3
+                        button_text=block.settings.product_butotn_text
+                        show_type=show_type
+                        enable_quick_view=enable_quick_view
+                      }}
+                    </div>
+                  {{/if}}
+
+                  
+                  {{#if block.settings.product4}}
+                    <div>
+                      {{snippet
+                        "shoppable-image__hotspot"
+                        type="product"
+                        product=block.settings.product4
+                        block=block
+                        horizontal_axis_position=block.settings.horizontal_axis_position4
+                        vertical_axis_position=block.settings.vertical_axis_position4
+                        button_text=block.settings.product_butotn_text
+                        show_type=show_type
+                        enable_quick_view=enable_quick_view
+                      }}
+                    </div>
+                  {{/if}}
+
+                  
+                  {{#if block.settings.product5}}
+                    <div>
+                      {{snippet
+                        "shoppable-image__hotspot"
+                        type="product"
+                        product=block.settings.product5
+                        block=block
+                        horizontal_axis_position=block.settings.horizontal_axis_position5
+                        vertical_axis_position=block.settings.vertical_axis_position5
+                        button_text=block.settings.product_butotn_text
+                        show_type=show_type
+                        enable_quick_view=enable_quick_view
+                      }}
+                    </div>
+                  {{/if}}
+                </div>
+
+              </shoppable-image>
+            </li>
+          {{/for}}
+        </ul>
+      </slider-component>
+    </div>
+  </div>
+</combine-shoppable-image>
+
+{{#schema}}
+{
+  "max_blocks": 6,
+  "name": "t:sections.combine-shoppable-image.name",
+  "blocks": [
+    {
+      "type": "image",
+      "icon": "image",
+      "name": "t:sections.combine-shoppable-image.blocks.image.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.image.label"
+        },
+        {
+          "type": "text",
+          "id": "product_butotn_text",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.product_butotn_text.label",
+          "default": "View product"
+        },
+        {
+          "type": "product_picker",
+          "id": "product1",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.product1.label"
+        },
+        {
+          "type": "range",
+          "id": "horizontal_axis_position1",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.horizontal_axis_position1.label",
+          "default": 25,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "vertical_axis_position1",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.vertical_axis_position1.label",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "product_picker",
+          "id": "product2",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.product2.label"
+        },
+        {
+          "type": "range",
+          "id": "horizontal_axis_position2",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.horizontal_axis_position2.label",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "vertical_axis_position2",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.vertical_axis_position2.label",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "product_picker",
+          "id": "product3",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.product3.label"
+        },
+        {
+          "type": "range",
+          "id": "horizontal_axis_position3",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.horizontal_axis_position3.label",
+          "default": 75,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "vertical_axis_position3",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.vertical_axis_position3.label",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "product_picker",
+          "id": "product4",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.product4.label"
+        },
+        {
+          "type": "range",
+          "id": "horizontal_axis_position4",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.horizontal_axis_position4.label",
+          "default": 75,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "vertical_axis_position4",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.vertical_axis_position4.label",
+          "default": 25,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "product_picker",
+          "id": "product5",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.product5.label"
+        },
+        {
+          "type": "range",
+          "id": "horizontal_axis_position5",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.horizontal_axis_position5.label",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "vertical_axis_position5",
+          "label": "t:sections.combine-shoppable-image.blocks.image.settings.vertical_axis_position5.label",
+          "default": 25,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "id": "text_title",
+      "type": "text",
+      "label": "t:sections.combine-shoppable-image.settings.text_title.label",
+      "default": "Goodsilron"
+    },
+    {
+      "id": "description",
+      "type": "richtext",
+      "label": "t:sections.combine-shoppable-image.settings.description.label",
+      "default": "Combining shopping pictures can well display your products according to the scene, which is very suitable for home furnishing and other categories of supermarkets."
+    },
+    {
+      "id": "button_text",
+      "type": "text",
+      "label": "t:sections.combine-shoppable-image.settings.button_text.label",
+      "default": "view all"
+    },
+    {
+      "id": "jump_link",
+      "type": "url",
+      "label": "t:sections.combine-shoppable-image.settings.jump_link.label"
+    },
+    {
+      "type": "select",
+      "id": "show_columns",
+      "default": 2,
+      "label": "t:sections.combine-shoppable-image.settings.show_columns.label",
+      "options": [
+        {
+          "value": 1,
+          "label": "t:sections.combine-shoppable-image.settings.show_columns.options__0.label"
+        },
+        {
+          "value": 2,
+          "label": "t:sections.combine-shoppable-image.settings.show_columns.options__1.label"
+        },
+        {
+          "value": 3,
+          "label": "t:sections.combine-shoppable-image.settings.show_columns.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "default": "100%",
+      "label": "t:sections.combine-shoppable-image.settings.image_ratio.label",
+      "options": [
+        {
+          "value": "150%",
+          "label": "t:sections.combine-shoppable-image.settings.image_ratio.options__0.label"
+        },
+        {
+          "value": "100%",
+          "label": "t:sections.combine-shoppable-image.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "177.77%",
+          "label": "9:16"
+        },
+        {
+          "value": "50%",
+          "label": "t:sections.combine-shoppable-image.settings.image_ratio.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.combine-shoppable-image.settings.group_header__0.label"
+    },
+    {
+      "type": "switch",
+      "id": "anchor_quick_view",
+      "label": "t:sections.combine-shoppable-image.settings.anchor_quick_view.label",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "anchor_show_type",
+      "label": "t:sections.combine-shoppable-image.settings.anchor_show_type.label",
+      "options": [
+        {
+          "value": "click",
+          "label": "t:sections.combine-shoppable-image.settings.anchor_show_type.options__0.label"
+        },
+        {
+          "value": "fixed",
+          "label": "t:sections.combine-shoppable-image.settings.anchor_show_type.options__1.label"
+        }
+      ],
+      "default": "click"
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.combine-shoppable-image.settings.group_header__1.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.combine-shoppable-image.settings.padding_top.label",
+      "default": 60,
+      "max": 100,
+      "min": 0,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.combine-shoppable-image.settings.padding_bottom.label",
+      "default": 60,
+      "max": 100,
+      "min": 0,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "category_index": 2,
+      "category": "t:sections.combine-shoppable-image.presets.presets__0.category",
+      "name": "t:sections.combine-shoppable-image.presets.presets__0.name",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "image",
+          "settings": {
+            "product_butotn_text": "View product"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "product_butotn_text": "View product"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "product_butotn_text": "View product"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "product_butotn_text": "View product"
+          }
+        }
+      ]
+    }
+  ]
+}
+{{/schema}}

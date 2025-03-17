@@ -1,0 +1,249 @@
+<style>
+  .toolbar-wrapper{
+    --toolbar_bacground_color:{{ section.settings.toolbar_bacground_color.red }}, {{ section.settings.toolbar_bacground_color.green }}, {{section.settings.toolbar_bacground_color.blue }};
+    --toolbar_link_color:{{ section.settings.toolbar_link_color.red }}, {{ section.settings.toolbar_link_color.green }}, {{section.settings.toolbar_link_color.blue }};
+    --toolbar_link_hover_color:{{ section.settings.toolbar_link_hover_color.red }}, {{ section.settings.toolbar_link_hover_color.green }}, {{section.settings.toolbar_link_hover_color.blue }};
+  }
+  @media (max-width: 959px) {
+    .toolbar-wrapper{
+      --toolbar_bacground_color:{{ section.settings.menu_background_color.red }}, {{ section.settings.menu_background_color.green }}, {{section.settings.menu_background_color.blue }};
+      --toolbar_link_color:{{ section.settings.menu_text_color.red }}, {{ section.settings.menu_text_color.green }}, {{section.settings.menu_text_color.blue }};
+      --toolbar_link_hover_color:{{ section.settings.menu_text_color.red }}, {{ section.settings.menu_text_color.green }}, {{section.settings.menu_text_color.blue }};
+    }
+  }
+</style>
+<div class="toolbar-wrapper">
+  <div class="header__drawer-menus-divider"></div>
+  <div class="toolbar page-width {{class}} {{ternary section.settings.show_tool_full 'toolbar__full_width' ''}}">
+    <ul class="toolbar-menu display-none-tablet">
+      {{#for section.settings.toolbar_menu.links as |link|}}
+        <li class="toolbar-menu__item">
+          <a
+            class="toolbar-menu__item__link header-inline-menus__link body5"
+            {{#if link.url}}href="{{link.url}}"{{else}}href="javascript:;"{{/if}}
+          >
+            {{link.title}}
+          </a>
+        </li>
+      {{/for}}
+    </ul>
+    
+    {{#if section.settings.toolbar_social}}
+      {{#with settings}}
+        {{#if
+          social_facebook_link or
+          social_twitter_link or
+          social_pinterest_link or
+          social_instagram_link or
+          social_snapchat_link or
+          social_tiktok_link or
+          social_youtube_link or
+          social_vimeo_link or
+          social_tumblr_link or
+          social_linkedin_link or
+          social_whatsapp_link or
+          social_line_link or
+          social_kakao_link
+        }}
+          <ul class="toolbar-social">
+            {{#if social_facebook_link}}
+              <li>
+                <a href="{{social_facebook_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-fb"}}
+                  {{else}}
+                    {{snippet "icon-mini-fb"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_twitter_link}}
+              <li>
+                <a href="{{social_twitter_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-twitter"}}
+                  {{else}}
+                    {{snippet "icon-mini-twitter"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_pinterest_link}}
+              <li>
+                <a href="{{social_pinterest_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-pin"}}
+                  {{else}}
+                    {{snippet "icon-mini-pin"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_instagram_link}}
+              <li>
+                <a href="{{social_instagram_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-ig" id="header-toolbar"}}
+                  {{else}}
+                    {{snippet "icon-mini-ig"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_snapchat_link}}
+              <li>
+                <a href="{{social_snapchat_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-snapchat"}}
+                  {{else}}
+                    {{snippet "icon-mini-snapchat"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_tiktok_link}}
+              <li>
+                <a href="{{social_tiktok_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-tiktok"}}
+                  {{else}}
+                    {{snippet "icon-mini-tiktok"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_youtube_link}}
+              <li>
+                <a href="{{social_youtube_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-youtube"}}
+                  {{else}}
+                    {{snippet "icon-mini-youtube"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_vimeo_link}}
+              <li>
+                <a href="{{social_vimeo_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-vimeo"}}
+                  {{else}}
+                    {{snippet "icon-mini-vimeo"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_tumblr_link}}
+              <li>
+                <a href="{{social_tumblr_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-tumblr"}}
+                  {{else}}
+                    {{snippet "icon-mini-tumblr"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_linkedin_link}}
+              <li>
+                <a href="{{social_linkedin_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-linkedin"}}
+                  {{else}}
+                    {{snippet "icon-mini-linkedin"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_whatsapp_link}}
+              <li>
+                <a href="{{social_whatsapp_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-whatsapp"}}
+                  {{else}}
+                    {{snippet "icon-mini-whatsapp"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_line_link}}
+              <li>
+                <a href="{{social_line_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-line"}}
+                  {{else}}
+                    {{snippet "icon-mini-line"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+            {{#if social_kakao_link}}
+              <li>
+                <a href="{{social_kakao_link}}" target="_blank">
+                  {{#if show_official_icon}}
+                    {{snippet "icon-official-kakao"}}
+                  {{else}}
+                    {{snippet "icon-mini-kakao"}}
+                  {{/if}}
+                </a>
+              </li>
+            {{/if}}
+          </ul>
+        {{/if}}
+      {{/with}}
+    {{/if}}
+
+    
+    {{#if section.settings.show_locale_selector or section.settings.show_country_selector}}
+      <localization-form>
+        {{#form "localization" id="localization-form-header" enctype="multipart/form-data" accept-charset="UTF-8"}}
+          {{#if section.settings.show_locale_selector and (gt (length localization.available_languages) 1)}}
+            <dropdown-menu>
+              <div class="dropdown-menu">
+                <input type="hidden" name="locale_code" value="{{localization.language.iso_code}}" />
+                <button class="button button--secondary dropdown-menu__button" type="button">
+                  <span data-label>{{localization.language.endonym_name}}</span>
+                  {{snippet "icon-arrow"}}
+                </button>
+                <div class="dropdown-menu__list-wrapper top global-modal-border-shadow body5" hidden>
+                  <ul class="dropdown-menu__list list-unstyled">
+                    {{#for localization.available_languages as |item|}}
+                      <li>
+                        <a href="javascript:;" data-value="{{item.iso_code}}">{{item.endonym_name}}</a>
+                      </li>
+                    {{/for}}
+                  </ul>
+                </div>
+              </div>
+            </dropdown-menu>
+          {{/if}}
+          {{#if section.settings.show_country_selector and (gt (length localization.available_countries) 1)}}
+            <dropdown-menu>
+              <div class="dropdown-menu">
+                <input type="hidden" name="country_code" value="{{localization.country.iso_code}}" />
+                <button class="button button--secondary dropdown-menu__button" type="button">
+                  <span data-label>{{localization.country.name}}（{{localization.country.currency.iso_code}}
+                    {{localization.country.currency.symbol}}）</span>
+                  {{snippet "icon-arrow"}}
+                </button>
+                <div class="dropdown-menu__list-wrapper global-modal-border-shadow body5 top" hidden>
+                  <ul class="dropdown-menu__list list-unstyled">
+                    {{#for localization.available_countries as |item|}}
+                      <li>
+                        <a href="javascript:;" data-value="{{item.iso_code}}">
+                          {{item.name}}（{{item.currency.iso_code}}
+                          {{item.currency.symbol}}）
+                        </a>
+                      </li>
+                    {{/for}}
+                  </ul>
+                </div>
+              </div>
+            </dropdown-menu>
+          {{/if}}
+        {{/form}}
+      </localization-form>
+    {{/if}}
+  </div>
+</div>

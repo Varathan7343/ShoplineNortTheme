@@ -1,0 +1,125 @@
+{{assign "valid_quick_view" (if theme_settings.enable_quick_view and product_data and product_data.available)}}
+
+<div {{{block.shopline_attributes}}} class="product-card-block-item card__image">
+  <div
+    class="card__inner--wrapper {{#if card_style != 'card'}}global-product-card-border-shadow{{/if}} {{#if image_round}}card__visible{{/if}}"
+    style="{{#if image_round}}--product-card-border-radius:50%;{{/if}}"
+  >
+    <div
+      class="card__inner ratio {{#if image_round}}card__inner--round{{/if}}"
+      style="--ratio-percent: {{image_ratio}}%; --image-fill-type: {{image_fill_type}}; --badge-border-radius: {{theme_settings.product_discount_radius}}px; --image-object-position:{{position}};"
+    >
+      <a
+        href="{{#if jump_link}}{{jump_link}}{{else}}javascript:;{{/if}}"
+        class="card__media
+          {{#if show_secondary_image}}media--hover-effect{{/if}}
+          {{#if mobile_show_secondary_image}}mobile--media--hover-effect{{/if}}
+          "
+      >
+        {{#capture "object_fit_contain_style_1"}}{{#if image_fill_type == 'contain' and product_data.featured_media.aspect_ratio > 1}}height:auto;{{/if}}{{/capture}}
+        {{#capture "object_fit_contain_style_2"}}{{#if image_fill_type == 'contain' and product_data.media.[1].aspect_ratio > 1}}height:auto;{{/if}}{{/capture}}
+
+        {{#if product_data.featured_media}}
+          {{snippet
+            "image"
+            data=product_data.featured_media
+            lazy=lazy_load
+            pc_size=(append "1/" desktop_grid_cols)
+            mobile_size=(append "1/" mobile_grid_cols)
+            class="collection-hero__image"
+            style=object_fit_contain_style_1
+          }}
+          {{#if product_data.media.[1] and show_secondary_image or mobile_show_secondary_image}}
+            {{snippet
+              "image"
+              data=product_data.media.[1]
+              lazy=lazy_load
+              pc_size=(append "1/" desktop_grid_cols)
+              mobile_size=(append "1/" mobile_grid_cols)
+              class="collection-hero__image"
+              style=object_fit_contain_style_2
+            }}
+          {{/if}}
+        {{else}}
+          
+          <div class="placeholder" {{{block.shopline_attributes}}}>
+            {{placeholder_svg_tag "image"}}
+          </div>
+        {{/if}}
+      </a>
+      {{#if theme_settings.product_discount_size == "mini"}}
+        {{assign "tag_class" "body5 fw-bold"}}
+        {{assign "card_badge_class" "card__badge--mini"}}
+      {{else}}
+        {{assign "tag_class" "body4 fw-bold"}}
+      {{/if}}
+
+      {{assign "discount_price" (minus product_data.compare_at_price product_data.price)}}
+      {{assign
+        "discount_ratio"
+        (round (divide (divided_by (times discount_price 10000) product_data.compare_at_price) 100))
+      }}
+      <div
+        style="{{#if theme_settings.product_discount_style == "ratio" and discount_ratio <= 0}}display:none;{{/if}}"
+        class="card__badge
+          {{theme_settings.product_discount_position}}
+          {{card_badge_class}}
+          {{#unless product_data.available}}sold-out-message{{/unless}}"
+      >
+        {{~#unless product_data.available}}
+          <span class="{{tag_class}}">
+            {{t "transaction.item.sold_out"}}
+          </span>
+        {{/unless~}}
+        {{~#if
+          product_data.available
+          and
+          product_data.compare_at_price
+          >
+          product_data.price
+          and
+          theme_settings.product_discount
+        }}
+          <span class="{{tag_class}}">
+            {{#case theme_settings.product_discount_tag_style}}
+              {{#when "sale"}}
+                {{t "products.product_list.sale"}}
+              {{else}}
+                {{#if theme_settings.product_discount_style == "number"}}
+                  {{{t "products.product_list.save_byjs" priceDom=(money_with_currency discount_price)}}}
+                {{else}}
+                  {{t "products.product_list.save_ratio" price=discount_ratio}}
+                {{/if}}
+              {{/when}}
+            {{/case}}
+          </span>
+        {{/if~}}
+      </div>
+
+      {{assign "enable_pc_quick_view_icon" (if valid_quick_view and quick_view_button_pc_style == "icon")}}
+      {{assign "enable_mb_quick_view_icon" (if valid_quick_view and quick_view_button_mobile_style == "icon")}}
+
+      {{#if enable_pc_quick_view_icon or enable_mb_quick_view_icon}}
+        {{#capture "button_classes"}}
+          {{~#if enable_pc_quick_view_icon}}display-block-desktop {{/if~}}
+          {{~#if enable_mb_quick_view_icon}}display-block-tablet {{/if~}}
+        {{/capture}}
+        <div class="quick-add display-none {{button_classes}}">
+          {{assign "product_form_id" (append "quick-add-" section_id "__" product_data.id)}}
+          <modal-opener data-modal="#QuickAdd-{{product_data.id}}">
+            <button
+              id="{{product_form_id}}-submit"
+              type="submit"
+              name="add"
+              class="quick-add__opener"
+              data-product-url="{{product_data.url}}"
+            >
+              <i class="loading-hidden">{{snippet "icon-add-cart"}}</i>
+              {{snippet "loading-overlay-spinner"}}
+            </button>
+          </modal-opener>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>

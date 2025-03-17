@@ -1,0 +1,32 @@
+{{snippet "stylesheet" href=(asset_url "section-customer-nav-bar.css")}}
+{{snippet "stylesheet" href=(asset_url "section-user-center-message.css")}}
+
+<div class="page-width section-padding">
+  {{snippet "user-center-message"}}
+  <div class="navbar__container">
+    <div class="navbar">
+      <a
+        href="{{routes.account_url}}"
+        class="body2 fw-bold navbar__item {{ternary (eq request.path routes.account_url) 'active' ''}}"
+      >{{t "customer.account.personal__info"}}</a>
+      <a
+        href="{{routes.account_order_list_url}}"
+        class="body2 fw-bold navbar__item {{ternary (eq request.path routes.account_order_list_url) 'active' ''}}"
+      >{{t "customer.general.orders"}}</a>
+    </div>
+
+    <div class="display-none-tablet">
+      <a href="{{routes.account_logout_url}}" class="logout-btn button button--link">{{t
+          "customer.general.sign__out"
+        }}</a>
+    </div>
+  </div>
+
+  {{slot_content}}
+
+  <div class="navbar__footer display-none-desktop text-center">
+    <a href="{{routes.account_logout_url}}" class="logout-btn button button--link">{{t
+        "customer.general.sign__out"
+      }}</a>
+  </div>
+</div>

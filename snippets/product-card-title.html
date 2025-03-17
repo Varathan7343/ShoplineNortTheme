@@ -1,0 +1,13 @@
+<h3
+  {{{shopline_attributes}}}
+  class="product-card-block-item product__title body3 fw-bold
+    {{theme_settings.product_title_show_type}}
+    {{#unless theme_settings.product_mobile_title_show}}display-none-tablet{{/unless}}
+    {{#unless theme_settings.product_pc_title_show}}display-none-desktop{{/unless}}"
+>
+  {{#if product_data}}
+    {{product_data.title}}
+  {{else}}
+    {{t "onboarding.product_title"}}
+  {{/if}}
+</h3>

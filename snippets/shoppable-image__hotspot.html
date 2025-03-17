@@ -1,0 +1,124 @@
+{{#comment}}
+ * Renders shoppable image hostpost
+ * @param {type} block type - string product|text.
+ * @param {product} product - product data object.
+ * @param {block} block settings - block settings object.
+ * @param {horizontal_axis_position} horizontal axis position - number.
+ * @param {vertical_axis_position} vertical axis position - number.
+ * @param {button_text} string button|text.
+ * @Usage:
+ {{snippet
+  "shoppable-image__hotspot"
+  type='product'
+  product=block.settings.product
+  block=block
+  horizontal_axis_position=block.settings.horizontal_axis_position_mobile
+  vertical_axis_position=block.settings.vertical_axis_position_mobile
+}}
+{{/comment}}
+
+{{assign "type" (default type block.type)}}
+{{assign "product" (default product block.settings.product)}}
+
+{{#if type == "product"}}
+
+  {{#if enable_quick_view}}
+    <quick-add-modal id="QuickAdd-{{product.id}}">
+      <details>
+        <summary class="display-none"></summary>
+        <div class="modal__overlay"></div>
+        <div class="modal__content quick-add-modal__content">
+          <button id="ModalClose-{{product.id}}" type="button" class="quick-add-modal__toggle" name="close">
+            {{snippet "icon-close"}}
+          </button>
+          <div id="QuickAddInfo-{{product.id}}" class="quick-add-modal__content-info"></div>
+        </div>
+      </details>
+    </quick-add-modal>
+  {{/if}}
+
+  <button
+    {{{shopline_attributes}}}
+    class="shoppable-image__hotspot quick-add__opener shoppable-image-quick-add-btn"
+    style="left: calc((100% - 30px) * {{divide horizontal_axis_position 100}}); top: calc((100% - 30px) * {{divide
+      vertical_axis_position
+      100
+    }});"
+  >
+
+    {{#if enable_quick_view}}
+      <modal-opener data-modal="#QuickAdd-{{product.id}}">
+    {{/if}}
+
+    <div class="hotspot__tooltip-wrapper modal-opener-btn" data-product-url="{{product.url}}">
+      {{#if show_type == "fixed"}}
+        {{snippet "shoppable-image__hotspot-fixed-card"}}
+      {{else}}
+        {{assign "ele" (ternary enable_quick_view "div" "a")}}
+        <{{ele}}
+          {{#if ele == "a"}}href="{{#if product.url}}{{product.url}}{{else}}javascript:;{{/if}}"{{/if}}
+          class="product-tooltip"
+        >
+          <div class="product-tooltip__image-wrapper">
+            {{#if product.featured_media}}
+              <div class="product-tooltip__image-padding">
+                {{snippet "image" data=product.featured_media pc_size="72px" mobile_size="72px" sizes="72,144,216"}}
+              </div>
+            {{else}}
+              
+              <div class="placeholder">
+                {{placeholder_svg_tag "image"}}
+              </div>
+            {{/if}}
+          </div>
+          <div class="product-tooltip__content">
+            <h4 class="product-tooltip__title body3">{{default product.title "Large image with text box"}}</h4>
+            {{snippet "price" product=product block=block}}
+            {{#if button_text}}
+              <div class="body4 product-tooltip__btn">
+                {{button_text}}
+                {{snippet "icon-arrow"}}
+              </div>
+            {{/if}}
+          </div>
+        </{{ele}}>
+      {{/if}}
+    </div>
+
+    {{#if enable_quick_view}}
+      </modal-opener>
+    {{/if}}
+
+  </button>
+
+{{/if}}
+{{#if type == "text"}}
+  <div
+    {{{shopline_attributes}}}
+    class="shoppable-image__hotspot"
+    style="left: calc((100% - 30px) * {{divide horizontal_axis_position 100}}); top: calc((100% - 30px) * {{divide
+      vertical_axis_position
+      100
+    }});"
+  >
+    <div class="hotspot__tooltip-wrapper">
+      <div
+        href="{{#if block.settings.button_href}}{{block.settings.button_href}}{{else}}javascript:;{{/if}}"
+        class="shoppable-image-text-container"
+      >
+        <div class="shoppable-image-text-title body3">{{block.settings.title}}</div>
+        <div class="shoppable-image-text-desc body6 rte">
+          {{{block.settings.desc}}}
+        </div>
+        {{#if block.settings.button_text}}
+          <a
+            class="button"
+            href="{{#if block.settings.button_href}}{{block.settings.button_href}}{{else}}javascript:;{{/if}}"
+          >
+            {{block.settings.button_text}}
+          </a>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+{{/if}}

@@ -1,0 +1,16 @@
+{{assign "ele" (ternary enable_quick_view "div" "a")}}
+
+<{{ele}} {{#if ele == "a"}}href="{{product.url}}"{{/if}} class="fixed-card-content">
+  <div class="fixed-card-text">
+    <h4 class="fixed-card-title">{{default product.title "Large image with text box"}}</h4>
+    <div class="fixed-card-price">
+      <span class="price-item-sale">{{money_with_currency product.price}}</span>
+      {{#if product.compare_at_price > product.price}}
+        <span class="price-item-origin">{{money_with_currency product.compare_at_price}}</span>
+      {{/if}}
+    </div>
+  </div>
+  <div class="fixed-card-icon">
+    {{snippet "icon-add-cart"}}
+  </div>
+</{{ele}}>

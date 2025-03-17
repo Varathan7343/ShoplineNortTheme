@@ -1,0 +1,309 @@
+<link rel="stylesheet" href="{{assets_url 'section-logo-list.css'}}" />
+
+{{snippet
+  "section-padding-creator"
+  section_id=section.id
+  padding_top=section.settings.padding_top
+  padding_bottom=section.settings.padding_bottom
+}}
+
+{{#if request.design_mode}}
+  <script src="{{asset_url 'theme-editor.js'}}" defer="defer"></script>
+{{/if}}
+
+<div
+  class="logo-list layout-{{section.settings.layout}}"
+  style="
+    --font-color: {{section.settings.font_color}};
+    --background-color: {{section.settings.background_color}};
+  "
+>
+  <div {{#if section.settings.width == "normal"}}class="page-width"{{/if}}>
+    <div
+      class="section-padding logo-list__scroll-wrapper grid grid-cols-4-desktop
+        {{#if section.settings.layout == 'vertical' and section.settings.mobile_display == 'grid'}} grid-cols-2-tablet{{/if}}
+        mobile-display-{{section.settings.mobile_display}}"
+    >
+      {{#for section.blocks as |block|}}
+        <a
+          {{#if block.settings.link}}href="{{block.settings.link}}"{{else}}href="javascript:;"{{/if}}
+          class="logo-list__item-wrapper"
+          {{{block.shopline_attributes}}}
+        >
+          <div
+            class="logo-list__item
+              {{#if section.settings.style_card}} style-card global-content-border-shadow{{/if}}"
+          >
+            <div class="logo-list__item__logo-wrapper">
+              {{#if block.settings.image}}
+                {{snippet "image" data=block.settings.image}}
+              {{else}}
+                {{snippet "logo-list-icon" icon=block.settings.icon icon_color=section.settings.icon_color}}
+              {{/if}}
+            </div>
+            <div class="logo-list__item__text-wrapper">
+              <div class="logo-list__item__title title6">
+                {{block.settings.title}}
+              </div>
+
+              <div class="logo-list__item__subtitle body3">
+                {{block.settings.subtitle}}
+              </div>
+            </div>
+          </div>
+        </a>
+      {{/for}}
+    </div>
+  </div>
+</div>
+
+{{#schema}}
+{
+  "name": "t:sections.logo-list.name",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:sections.logo-list.settings.width.label",
+      "default": "full",
+      "options": [
+        {
+          "value": "full",
+          "label": "t:sections.logo-list.settings.width.options__0.label"
+        },
+        {
+          "value": "normal",
+          "label": "t:sections.logo-list.settings.width.options__1.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:sections.logo-list.settings.layout.label",
+      "default": "vertical",
+      "options": [
+        {
+          "label": "t:sections.logo-list.settings.layout.options__0.label",
+          "value": "vertical"
+        },
+        {
+          "label": "t:sections.logo-list.settings.layout.options__1.label",
+          "value": "horizontal"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "t:sections.logo-list.settings.font_color.label",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "t:sections.logo-list.settings.icon_color.label",
+      "default": "#122D47"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.logo-list.settings.background_color.label",
+      "default": "#ECF0F4"
+    },
+    {
+      "type": "select",
+      "id": "mobile_display",
+      "label": "t:sections.logo-list.settings.mobile_display.label",
+      "default": "scroll",
+      "options": [
+        {
+          "value": "scroll",
+          "label": "t:sections.logo-list.settings.mobile_display.options__0.label"
+        },
+        {
+          "value": "grid",
+          "label": "t:sections.logo-list.settings.mobile_display.options__1.label"
+        }
+      ]
+    },
+    {
+      "type": "switch",
+      "id": "style_card",
+      "label": "t:sections.logo-list.settings.style_card.label",
+      "default": false
+    },
+    {
+      "type": "group_header",
+      "label": "t:sections.logo-list.settings.group_header__0.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.logo-list.settings.padding_top.label",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.logo-list.settings.padding_bottom.label",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "t:sections.logo-list.blocks.icon.name",
+      "icon": "image",
+      "settings": [
+        {
+          "id": "icon",
+          "type": "select",
+          "label": "t:sections.logo-list.blocks.icon.settings.icon.label",
+          "default": "logistics",
+          "options": [
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__0.label",
+              "value": "none"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__1.label",
+              "value": "pay"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__2.label",
+              "value": "package"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__3.label",
+              "value": "email"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__4.label",
+              "value": "position"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__5.label",
+              "value": "customer"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__6.label",
+              "value": "chat"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__7.label",
+              "value": "gift"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__8.label",
+              "value": "phone"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__9.label",
+              "value": "faq"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__10.label",
+              "value": "logistics"
+            },
+            {
+              "label": "t:sections.logo-list.blocks.icon.settings.icon.options__11.label",
+              "value": "discount"
+            }
+          ]
+        },
+        {
+          "id": "image",
+          "type": "image_picker",
+          "info": "t:sections.logo-list.blocks.icon.settings.image.info",
+          "label": "t:sections.logo-list.blocks.icon.settings.image.label"
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "label": "t:sections.logo-list.blocks.icon.settings.title.label",
+          "default": "Free Shipping"
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "label": "t:sections.logo-list.blocks.icon.settings.subtitle.label",
+          "default": "Capped at $50 per order"
+        },
+        {
+          "id": "link",
+          "type": "url",
+          "label": "t:sections.logo-list.blocks.icon.settings.link.label",
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category_index": 4,
+      "category": "t:sections.logo-list.presets.presets__0.category",
+      "name": "t:sections.logo-list.presets.presets__0.name",
+      "settings": {
+        "background_color": "#ECF0F4",
+        "font_color": "#000000",
+        "icon_color": "#122D47",
+        "layout": "vertical",
+        "width": "full",
+        "mobile_display": "scroll",
+        "link": "",
+        "style_card": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      },
+      "blocks": [
+        {
+          "type": "icon",
+          "icon": "image",
+          "settings": {
+            "icon": "logistics",
+            "title": "Free shipping",
+            "subtitle": "Capped at $50 per order."
+          }
+        },
+        {
+          "type": "icon",
+          "icon": "image",
+          "settings": {
+            "icon": "chat",
+            "title": "Chat with us",
+            "subtitle": "We offer 24-hour chat support."
+          }
+        },
+        {
+          "type": "icon",
+          "icon": "image",
+          "settings": {
+            "icon": "pay",
+            "title": "Secure payments",
+            "subtitle": "Up to 12 months installments."
+          }
+        },
+        {
+          "type": "icon",
+          "icon": "image",
+          "settings": {
+            "icon": "package",
+            "title": "14-day returns",
+            "subtitle": "Shop with confidence."
+          }
+        }
+      ]
+    }
+  ]
+}
+{{/schema}}
