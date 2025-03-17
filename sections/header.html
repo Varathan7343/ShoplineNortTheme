@@ -191,14 +191,14 @@
             </a>
           {{/if}}
 
-          <a
+          <!-- <a
             id="cart-icon-bubble"
             class="icon-button header__icon-button
               {{#if (isFalsey section.settings.show_cart_entry)}}display-none{{/if}}"
             href="{{routes.cart_url}}"
           >
             {{snippet "cart-icon-bubble" type=section.settings.cart_icon}}
-          </a>
+          </a> -->
           
           {{#if section.settings.toolbar_menu_position == "top"}}
             {{assign "toolbar_class" "header__menu-drawer--top-toolbar"}}
